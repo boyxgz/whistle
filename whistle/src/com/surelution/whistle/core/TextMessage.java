@@ -9,7 +9,7 @@ import java.util.List;
  * @author <a href="mailto:guangzong.syu@gmail.com">Guangzong</a>
  *
  */
-public class Message {
+public class TextMessage {
 
 	public static final String KEY_Location_Y = "Location_Y";
 	public static final String KEY_Location_X = "Location_X";
@@ -27,13 +27,13 @@ public class Message {
 	private String message;
 	private boolean isCData;
 	
-	public Message(String key, String message, boolean isCData) {
+	public TextMessage(String key, String message, boolean isCData) {
 		this.key = key;
 		this.message = message;
 		this.isCData = isCData;
 	}
 	
-	public Message(String key, String message) {
+	public TextMessage(String key, String message) {
 		this(key, message, true);
 	}
 	
@@ -71,7 +71,7 @@ public class Message {
 		return sb.toString();
 	}
 
-	protected List<Message> getFellows() {
+	protected List<TextMessage> getFellows() {
 		return null;
 	}
 }

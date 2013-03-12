@@ -11,7 +11,7 @@ import java.util.List;
  * @author <a href="mailto:guangzong.syu@gmail.com">Guangzong</a>
  *
  */
-public class NewsMessage extends Message {
+public class NewsMessage extends TextMessage {
 
 	private ArrayList<ArticleMessage> articles = new ArrayList<NewsMessage.ArticleMessage>();
 
@@ -40,10 +40,10 @@ public class NewsMessage extends Message {
 	 * 
 	 * @return
 	 */
-	protected List<Message> getFellows() {
-		Message ac = new Message(KEY_ArticleCount, String.valueOf(getArticleCount()), false);
-		Message mt = new Message(Message.KEY_MsgType, Message.Msg_Type_NEWS);
-		List<Message> ms = new ArrayList<Message>();
+	protected List<TextMessage> getFellows() {
+		TextMessage ac = new TextMessage(KEY_ArticleCount, String.valueOf(getArticleCount()), false);
+		TextMessage mt = new TextMessage(TextMessage.KEY_MsgType, TextMessage.Msg_Type_NEWS);
+		List<TextMessage> ms = new ArrayList<TextMessage>();
 		ms.add(ac);
 		ms.add(mt);
 		return ms;
@@ -61,7 +61,7 @@ public class NewsMessage extends Message {
 		return sb.toString();
 	}
 
-	public class ArticleMessage extends Message {
+	public class ArticleMessage extends TextMessage {
 		private String title;
 		private String description;
 		private String picUrl;
@@ -96,10 +96,10 @@ public class NewsMessage extends Message {
 		}
 		
 		public String getMessage() {
-			Message title = new Message(KEY_Title, this.title);
-			Message description = new Message(KEY_Description, this.description);
-			Message picUrl = new Message(KEY_PicUrl, this.picUrl);
-			Message url = new Message(KEY_Url, this.url);
+			TextMessage title = new TextMessage(KEY_Title, this.title);
+			TextMessage description = new TextMessage(KEY_Description, this.description);
+			TextMessage picUrl = new TextMessage(KEY_PicUrl, this.picUrl);
+			TextMessage url = new TextMessage(KEY_Url, this.url);
 			StringBuilder sb = new StringBuilder();
 			sb.append(title.toXml());
 			sb.append(description.toXml());
