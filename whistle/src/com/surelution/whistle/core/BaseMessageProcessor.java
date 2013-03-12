@@ -18,15 +18,15 @@ import java.util.ResourceBundle;
 public abstract class BaseMessageProcessor {
 
 	private Map<String, String> params;
-	private Map<String, TextMessage> outcomeParams = new HashMap<String, TextMessage>();
+	private Map<String, Message> outcomeParams = new HashMap<String, Message>();
 	
 	final protected void feed(Map<String, String> map) {
 		params = map;
-		put(TextMessage.KEY_ToUserName, getParam(TextMessage.KEY_FromUserName));
-		put(TextMessage.KEY_FromUserName, getParam(TextMessage.KEY_ToUserName));
-		put(TextMessage.KEY_CreateTime, String.valueOf(System.currentTimeMillis()), false);
-		put(TextMessage.KEY_MsgType, TextMessage.Msg_Type_TEXT);
-		put(TextMessage.KEY_FuncFlag, "0", false);
+		put(Message.KEY_ToUserName, getParam(Message.KEY_FromUserName));
+		put(Message.KEY_FromUserName, getParam(Message.KEY_ToUserName));
+		put(Message.KEY_CreateTime, String.valueOf(System.currentTimeMillis()), false);
+		put(Message.KEY_MsgType, Message.Msg_Type_TEXT);
+		put(Message.KEY_FuncFlag, "0", false);
 	}
 	
 	final public String getParam(String key) {
@@ -44,7 +44,7 @@ public abstract class BaseMessageProcessor {
 	final public String getXml() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<xml>");
-		for(Entry<String, TextMessage> entry : outcomeParams.entrySet()) {
+		for(Entry<String, Message> entry : outcomeParams.entrySet()) {
 			sb.append(entry.getValue().toXml());
 		}
 		sb.append("</xml>");
@@ -52,18 +52,18 @@ public abstract class BaseMessageProcessor {
 	}
 
 	final protected void put(String key, String message, boolean isCData) {
-		outcomeParams.put(key, new TextMessage(key, message, isCData));
+		outcomeParams.put(key, new Message(key, message, isCData));
 	}
 
 	final protected void put(String key, String message) {
 		put(key, message, true);
 	}
 
-	final protected void put(TextMessage message) {
+	final protected void put(Message message) {
 		outcomeParams.put(message.getKey(), message);
-		List<TextMessage> fellows = message.getFellows();
+		List<Message> fellows = message.getFellows();
 		if(fellows != null) {
-			for(TextMessage fellow : fellows) {
+			for(Message fellow : fellows) {
 				outcomeParams.put(fellow.getKey(), fellow);
 			}
 		}
