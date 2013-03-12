@@ -37,6 +37,10 @@ public class Message {
 		return message;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String toXml() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<");
