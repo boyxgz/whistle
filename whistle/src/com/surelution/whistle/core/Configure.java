@@ -43,7 +43,7 @@ public class Configure {
 	}
 	
 	private Configure() {
-		InputStream is = getClass().getClassLoader().getResourceAsStream("wx.xml");
+		InputStream is = getClass().getClassLoader().getResourceAsStream("whistle.xml");
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser parser;
 			try {
