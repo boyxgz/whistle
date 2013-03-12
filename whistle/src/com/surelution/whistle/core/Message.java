@@ -29,6 +29,10 @@ public class Message {
 		return key;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getMessage() {
 		return message;
 	}
