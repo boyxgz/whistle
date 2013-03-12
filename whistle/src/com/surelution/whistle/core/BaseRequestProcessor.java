@@ -33,14 +33,21 @@ public abstract class BaseRequestProcessor {
 	}
 
 	public abstract boolean accept();
-	
-	public boolean goOn() {
+
+	/**
+	 * some request should be terminated, implements it to return false
+	 * @return
+	 */
+	public boolean moveOn() {
 		return true;
 	}
 
+	/**
+	 * handle the request. process the request the parameters, save to db, build the result etc.
+	 */
 	public abstract void process();
 
-	final public String getXml() {
+	final public String buildXml() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<xml>");
 		for(Entry<String, Attribute> entry : outcomeParams.entrySet()) {

@@ -20,7 +20,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author <a href="mailto:guangzong.syu@gmail.com">Guangzong</a>
  *
  */
-public class IncomeMessageParser {
+public class IncomeMessageDegister {
 
 	public static Map<String, String> parse(InputStream is) {
 		final HashMap<String, String> map = new HashMap<String, String>();

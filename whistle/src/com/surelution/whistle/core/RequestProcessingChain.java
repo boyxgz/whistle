@@ -43,9 +43,9 @@ public class RequestProcessingChain {
 			} catch(Exception e){}
 			if(accept) {
 				processor.process();
-				String xml = processor.getXml();
+				String xml = processor.buildXml();
 				return xml;
-			} else if(processor.goOn()) {
+			} else if(processor.moveOn()) {
 				continue;
 			} else {
 				break;

@@ -47,7 +47,7 @@ public class GateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		ServletInputStream is = req.getInputStream();
-		Map<String, String> map = IncomeMessageParser.parse(is);
+		Map<String, String> map = IncomeMessageDegister.parse(is);
 		System.out.println(map);
 		RequestProcessingChain chain = RequestProcessingChain.getInstance();
 		String ret = chain.getContent(map);
