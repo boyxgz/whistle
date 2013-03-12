@@ -15,18 +15,17 @@ import java.util.ResourceBundle;
  * @author <a href="mailto:guangzong.syu@gmail.com">Guangzong</a>
  *
  */
-public abstract class BaseMessageProcessor {
+public abstract class BaseRequestProcessor {
 
 	private Map<String, String> params;
-	private Map<String, Message> outcomeParams = new HashMap<String, Message>();
+	private Map<String, Attribute> outcomeParams = new HashMap<String, Attribute>();
 	
 	final protected void feed(Map<String, String> map) {
 		params = map;
-		put(Message.KEY_ToUserName, getParam(Message.KEY_FromUserName));
-		put(Message.KEY_FromUserName, getParam(Message.KEY_ToUserName));
-		put(Message.KEY_CreateTime, String.valueOf(System.currentTimeMillis()), false);
-		put(Message.KEY_MsgType, Message.Msg_Type_TEXT);
-		put(Message.KEY_FuncFlag, "0", false);
+		put(new Attribute(Attribute.KEY_ToUserName, getParam(Attribute.KEY_FromUserName)));
+		put(new Attribute(Attribute.KEY_FromUserName, getParam(Attribute.KEY_ToUserName)));
+		put(new Attribute(Attribute.KEY_CreateTime, String.valueOf(System.currentTimeMillis()), false));
+		put(new Attribute(Attribute.KEY_FuncFlag, "0", false));
 	}
 	
 	final public String getParam(String key) {
@@ -44,27 +43,19 @@ public abstract class BaseMessageProcessor {
 	final public String getXml() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<xml>");
-		for(Entry<String, Message> entry : outcomeParams.entrySet()) {
+		for(Entry<String, Attribute> entry : outcomeParams.entrySet()) {
 			sb.append(entry.getValue().toXml());
 		}
 		sb.append("</xml>");
 		return sb.toString();
 	}
 
-	final protected void put(String key, String message, boolean isCData) {
-		outcomeParams.put(key, new Message(key, message, isCData));
-	}
-
-	final protected void put(String key, String message) {
-		put(key, message, true);
-	}
-
-	final protected void put(Message message) {
-		outcomeParams.put(message.getKey(), message);
-		List<Message> fellows = message.getFellows();
+	final protected void put(Attribute message) {
+		outcomeParams.put(message.getName(), message);
+		List<Attribute> fellows = message.fellows();
 		if(fellows != null) {
-			for(Message fellow : fellows) {
-				outcomeParams.put(fellow.getKey(), fellow);
+			for(Attribute fellow : fellows) {
+				outcomeParams.put(fellow.getName(), fellow);
 			}
 		}
 	}

@@ -10,19 +10,19 @@ import java.util.Map;
  * @author <a href="mailto:guangzong.syu@gmail.com">Guangzong</a>
  *
  */
-public class MessageProcessingChain {
+public class RequestProcessingChain {
 
-	private static MessageProcessingChain instance = new MessageProcessingChain();
+	private static RequestProcessingChain instance = new RequestProcessingChain();
 
-	private ArrayList<BaseMessageProcessor> processors = new ArrayList<BaseMessageProcessor>();
+	private ArrayList<BaseRequestProcessor> processors = new ArrayList<BaseRequestProcessor>();
 
-	private MessageProcessingChain() {
+	private RequestProcessingChain() {
 		Configure config = Configure.config();
 		for(String processorName : config.getProcessorNames()) {
 			if(processorName != null) {
 				try {
 					Class<?> c = Class.forName(processorName);
-					processors.add((BaseMessageProcessor) c.newInstance());
+					processors.add((BaseRequestProcessor) c.newInstance());
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (InstantiationException e) {
@@ -35,7 +35,7 @@ public class MessageProcessingChain {
 	}
 
 	public String getContent(Map<String, String> map) {
-		for(BaseMessageProcessor processor : processors) {
+		for(BaseRequestProcessor processor : processors) {
 			processor.feed(map);
 			boolean accept = false;
 			try{
@@ -55,7 +55,7 @@ public class MessageProcessingChain {
 		return null;
 	}
 
-	public static MessageProcessingChain getInstance() {
+	public static RequestProcessingChain getInstance() {
 		return instance;
 	}
 }

@@ -49,7 +49,7 @@ public class GateServlet extends HttpServlet {
 		ServletInputStream is = req.getInputStream();
 		Map<String, String> map = IncomeMessageParser.parse(is);
 		System.out.println(map);
-		MessageProcessingChain chain = MessageProcessingChain.getInstance();
+		RequestProcessingChain chain = RequestProcessingChain.getInstance();
 		String ret = chain.getContent(map);
 		resp.setCharacterEncoding("utf-8");
 		resp.getWriter().write(ret);

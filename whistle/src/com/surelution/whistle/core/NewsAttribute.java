@@ -11,9 +11,9 @@ import java.util.List;
  * @author <a href="mailto:guangzong.syu@gmail.com">Guangzong</a>
  *
  */
-public class NewsMessage extends Message {
+public class NewsAttribute extends Attribute {
 
-	private ArrayList<ArticleMessage> articles = new ArrayList<NewsMessage.ArticleMessage>();
+	private ArrayList<ArticleAttribute> articles = new ArrayList<NewsAttribute.ArticleAttribute>();
 
 	public static final String KEY_Articles = "Articles";
 	public static final String KEY_Item = "item";
@@ -23,12 +23,12 @@ public class NewsMessage extends Message {
 	public static final String KEY_Url = "Url";
 	public static final String KEY_ArticleCount = "ArticleCount";
 
-	public NewsMessage() {
+	public NewsAttribute() {
 		super(KEY_Articles, null, false);
 	}
 	
 	public void add(String title, String description, String picUrl, String url) {
-		ArticleMessage am = new ArticleMessage(title, description, picUrl, url);
+		ArticleAttribute am = new ArticleAttribute(title, description, picUrl, url);
 		articles.add(am);
 	}
 	
@@ -40,10 +40,10 @@ public class NewsMessage extends Message {
 	 * 
 	 * @return
 	 */
-	protected List<Message> getFellows() {
-		Message ac = new Message(KEY_ArticleCount, String.valueOf(getArticleCount()), false);
-		Message mt = new Message(Message.KEY_MsgType, Message.Msg_Type_NEWS);
-		List<Message> ms = new ArrayList<Message>();
+	protected List<Attribute> fellows() {
+		Attribute ac = new Attribute(KEY_ArticleCount, String.valueOf(getArticleCount()), false);
+		Attribute mt = new Attribute(Attribute.KEY_MsgType, Attribute.Msg_Type_NEWS);
+		List<Attribute> ms = new ArrayList<Attribute>();
 		ms.add(ac);
 		ms.add(mt);
 		return ms;
@@ -53,15 +53,15 @@ public class NewsMessage extends Message {
 	 * @see com.surelution.wxmp.Message#getMessage()
 	 */
 	@Override
-	public String getMessage() {
+	public String getValue() {
 		StringBuilder sb = new StringBuilder();
-		for(ArticleMessage am : articles) {
+		for(ArticleAttribute am : articles) {
 			sb.append(am.toXml());
 		}
 		return sb.toString();
 	}
 
-	public class ArticleMessage extends Message {
+	public class ArticleAttribute extends Attribute {
 		private String title;
 		private String description;
 		private String picUrl;
@@ -73,7 +73,7 @@ public class NewsMessage extends Message {
 		 * @param picUrl
 		 * @param url
 		 */
-		public ArticleMessage(String title, String description, String picUrl,
+		public ArticleAttribute(String title, String description, String picUrl,
 				String url) {
 			super(KEY_Item, null, false);
 			this.title = title;
@@ -95,11 +95,11 @@ public class NewsMessage extends Message {
 			return url;
 		}
 		
-		public String getMessage() {
-			Message title = new Message(KEY_Title, this.title);
-			Message description = new Message(KEY_Description, this.description);
-			Message picUrl = new Message(KEY_PicUrl, this.picUrl);
-			Message url = new Message(KEY_Url, this.url);
+		public String getValue() {
+			Attribute title = new Attribute(KEY_Title, this.title);
+			Attribute description = new Attribute(KEY_Description, this.description);
+			Attribute picUrl = new Attribute(KEY_PicUrl, this.picUrl);
+			Attribute url = new Attribute(KEY_Url, this.url);
 			StringBuilder sb = new StringBuilder();
 			sb.append(title.toXml());
 			sb.append(description.toXml());
