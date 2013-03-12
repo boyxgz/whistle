@@ -21,6 +21,7 @@ public class NewsMessage extends Message {
 	public static final String KEY_Description = "Description";
 	public static final String KEY_PicUrl = "PicUrl";
 	public static final String KEY_Url = "Url";
+	public static final String KEY_ArticleCount = "ArticleCount";
 
 	public NewsMessage() {
 		super(KEY_Articles, null, false);
@@ -40,8 +41,8 @@ public class NewsMessage extends Message {
 	 * @return
 	 */
 	protected List<Message> getFellows() {
-		Message ac = new Message("ArticleCount", String.valueOf(getArticleCount()), false);
-		Message mt = new Message(BaseMessageProcessor.KEY_MsgType, "news");
+		Message ac = new Message(KEY_ArticleCount, String.valueOf(getArticleCount()), false);
+		Message mt = new Message(Message.KEY_MsgType, Message.Msg_Type_NEWS);
 		List<Message> ms = new ArrayList<Message>();
 		ms.add(ac);
 		ms.add(mt);

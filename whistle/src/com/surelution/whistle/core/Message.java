@@ -11,6 +11,18 @@ import java.util.List;
  */
 public class Message {
 
+	public static final String KEY_Location_Y = "Location_Y";
+	public static final String KEY_Location_X = "Location_X";
+	public static final String KEY_Content = "Content";
+	public static final String KEY_FuncFlag = "FuncFlag";
+	public static final String KEY_MsgType = "MsgType";
+	public static final String KEY_CreateTime = "CreateTime";
+	public static final String KEY_FromUserName = "FromUserName";
+	public static final String KEY_ToUserName = "ToUserName";
+	
+	public static final String Msg_Type_NEWS = "news";
+	public static final String Msg_Type_TEXT = "text";
+
 	private String key;
 	private String message;
 	private boolean isCData;
