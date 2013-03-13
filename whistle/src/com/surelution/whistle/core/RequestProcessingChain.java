@@ -42,6 +42,7 @@ public class RequestProcessingChain {
 				accept = processor.accept();
 			} catch(Exception e){}
 			if(accept) {
+				processor.onMessage();
 				processor.process();
 				String xml = processor.buildXml();
 				return xml;

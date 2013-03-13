@@ -56,6 +56,10 @@ public abstract class BaseRequestProcessor {
 	 * handle the request. process the request the parameters, save to db, build the result etc.
 	 */
 	public abstract void process();
+	
+	public void onMessage() {
+		
+	}
 
 	final public String buildXml() {
 		StringBuilder sb = new StringBuilder();
