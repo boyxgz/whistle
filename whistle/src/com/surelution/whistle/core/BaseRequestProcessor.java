@@ -5,11 +5,13 @@ package com.surelution.whistle.core;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">Guangzong</a>
@@ -30,6 +32,14 @@ public abstract class BaseRequestProcessor {
 	
 	final public String getParam(String key) {
 		return params.get(key);
+	}
+	
+	final public Set<String> paramNames() {
+		HashSet<String> names = new HashSet<String>();
+		for(String name : params.keySet()) {
+			names.add(name);
+		}
+		return names;
 	}
 
 	public abstract boolean accept();
