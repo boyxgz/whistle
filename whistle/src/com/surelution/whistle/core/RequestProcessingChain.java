@@ -14,7 +14,7 @@ public class RequestProcessingChain {
 
 	private static RequestProcessingChain instance = new RequestProcessingChain();
 
-	private ArrayList<BaseRequestProcessor> processors = new ArrayList<BaseRequestProcessor>();
+	private ArrayList<BaseAction> processors = new ArrayList<BaseAction>();
 
 	private RequestProcessingChain() {
 		Configure config = Configure.config();
@@ -22,7 +22,7 @@ public class RequestProcessingChain {
 			if(processorName != null) {
 				try {
 					Class<?> c = Class.forName(processorName);
-					processors.add((BaseRequestProcessor) c.newInstance());
+					processors.add((BaseAction) c.newInstance());
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (InstantiationException e) {
@@ -35,15 +35,15 @@ public class RequestProcessingChain {
 	}
 
 	public String getContent(Map<String, String> map) {
-		for(BaseRequestProcessor processor : processors) {
+		for(BaseAction processor : processors) {
 			processor.feed(map);
 			boolean accept = false;
 			try{
 				accept = processor.accept();
 			} catch(Exception e){}
 			if(accept) {
-				processor.onMessage();
-				processor.process();
+				processor.preExecute();
+				processor.execute();
 				String xml = processor.buildXml();
 				return xml;
 			} else if(processor.moveOn()) {

@@ -17,7 +17,7 @@ import java.util.Set;
  * @author <a href="mailto:guangzong.syu@gmail.com">Guangzong</a>
  *
  */
-public abstract class BaseRequestProcessor {
+public abstract class BaseAction {
 
 	private Map<String, String> params;
 	private Map<String, Attribute> outcomeParams = new HashMap<String, Attribute>();
@@ -55,9 +55,9 @@ public abstract class BaseRequestProcessor {
 	/**
 	 * handle the request. process the request the parameters, save to db, build the result etc.
 	 */
-	public abstract void process();
+	public abstract void execute();
 	
-	public void onMessage() {
+	public void preExecute() {
 		
 	}
 
