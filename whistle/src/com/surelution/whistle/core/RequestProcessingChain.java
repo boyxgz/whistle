@@ -12,16 +12,21 @@ import java.util.Map;
  */
 public class RequestProcessingChain {
 
-	private static RequestProcessingChain instance = new RequestProcessingChain();
+	private static RequestProcessingChain instance;
+	private ClassLoader classLoader;
 
 	private ArrayList<BaseAction> processors = new ArrayList<BaseAction>();
 
-	private RequestProcessingChain() {
+	private RequestProcessingChain(ClassLoader classLoader) {
+		this.classLoader = classLoader;
+		if(this.classLoader == null) {
+			this.classLoader = getClass().getClassLoader();
+		}
 		Configure config = Configure.config();
 		for(String processorName : config.getProcessorNames()) {
 			if(processorName != null) {
 				try {
-					Class<?> c = Class.forName(processorName);
+					Class<?> c = this.classLoader.loadClass(processorName);
 					processors.add((BaseAction) c.newInstance());
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
@@ -56,7 +61,10 @@ public class RequestProcessingChain {
 		return null;
 	}
 
-	public static RequestProcessingChain getInstance() {
+	public static synchronized RequestProcessingChain getInstance(ClassLoader classLoader) {
+		if(instance == null) {
+			instance = new RequestProcessingChain(classLoader);
+		}
 		return instance;
 	}
 }
