@@ -2,6 +2,6 @@
 <wx>
 	<token>xxxxxxx</token>
 	<processor-chain>
-		com.surelution.whistle.core.SampleProcessor
+		<processor>com.surelution.whistle.core.SampleProcessor</processor>
 	</processor-chain>
 </wx>

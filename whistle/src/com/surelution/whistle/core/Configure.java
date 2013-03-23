@@ -6,7 +6,9 @@ package com.surelution.whistle.core;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -22,7 +24,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class Configure {
 	
-	private static Configure instance = new Configure();
+	private static Map<String, Configure> instances = new HashMap<String, Configure>();
 
 	private String token;
 	final private ArrayList<String> names = new ArrayList<String>();
@@ -42,8 +44,8 @@ public class Configure {
 		return iter;
 	}
 	
-	private Configure() {
-		InputStream is = getClass().getClassLoader().getResourceAsStream("whistle.xml");
+	private Configure(String file) {
+		InputStream is = getClass().getClassLoader().getResourceAsStream(file);
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser parser;
 			try {
@@ -108,6 +110,17 @@ public class Configure {
 	}
 	
 	public static Configure config() {
-		return instance;
+		return config("whistle.xml");
+	}
+	
+	public synchronized static Configure config(String file) {
+		Configure cfg;
+		if(!instances.containsKey(file)) {
+			cfg = new Configure(file);
+			instances.put(file, cfg);
+		} else {
+			cfg = instances.get(file);
+		}
+		return cfg;
 	}
 }
