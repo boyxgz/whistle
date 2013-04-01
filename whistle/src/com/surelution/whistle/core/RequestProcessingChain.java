@@ -42,12 +42,17 @@ public class RequestProcessingChain {
 
 	public String getContent(Map<String, String> map) {
 		for(BaseAction processor : processors) {
+			System.out.print("try ");
+			System.out.println(processor.getClass().getName());
 			processor.feed(map);
 			boolean accept = false;
 			try{
 				accept = processor.accept();
 			} catch(Exception e){}
 			if(accept) {
+				System.out.print("processor ");
+				System.out.print(processor.getClass().getName());
+				System.out.println(" goal....");
 				processor.preExecute();
 				processor.execute();
 				String xml = processor.buildXml();
