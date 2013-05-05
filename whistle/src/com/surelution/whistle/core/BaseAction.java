@@ -82,6 +82,12 @@ public abstract class BaseAction {
 	}
 
 	final protected String getMessage(String key, String... args) {
+		String pattern = getResource(key);
+		MessageFormat mf = new MessageFormat(pattern, Locale.SIMPLIFIED_CHINESE);
+		return mf.format(args);
+	}
+	
+	protected String getResource(String key) {
 		ResourceBundle messages = ResourceBundle.getBundle(getClass().getPackage().getName() + ".resources", Locale.SIMPLIFIED_CHINESE);
 		String pattern;
 		if(messages.containsKey(key)) {
@@ -90,7 +96,6 @@ public abstract class BaseAction {
 			messages = ResourceBundle.getBundle("resources", Locale.SIMPLIFIED_CHINESE);
 			pattern = messages.getString(key);
 		}
-		MessageFormat mf = new MessageFormat(pattern, Locale.SIMPLIFIED_CHINESE);
-		return mf.format(args);
+		return pattern;
 	}
 }
