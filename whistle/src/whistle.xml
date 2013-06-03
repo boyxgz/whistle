@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>  
 <wx>
-	<token>xxxxxxx</token>
+	<token>whistle</token>
 	<processor-chain>
-		<processor>com.surelution.whistle.core.SampleProcessor</processor>
+		<processor>com.surelution.whistle.core.SampleAction</processor>
 	</processor-chain>
 </wx>
