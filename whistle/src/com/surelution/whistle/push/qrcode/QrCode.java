@@ -54,8 +54,6 @@ public class QrCode {
         		}
     		}
     	}
-    	
-    	
     }
     
     private static String getTicket(long id) throws Exception {

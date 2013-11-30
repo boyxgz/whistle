@@ -32,6 +32,7 @@ public class GenerateCode {
 		HashMap<EncodeHintType, ErrorCorrectionLevel> hints = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
 		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
 
+		
 		QRCodeWriter qrWriter = new QRCodeWriter();
 		BitMatrix matrix = qrWriter.encode(content,
 				BarcodeFormat.QR_CODE, QRCODE_IMAGE_WIDTH, QRCODE_IMAGE_HEIGHT,
