@@ -48,9 +48,9 @@ public class Pusher {
         writer.close();
  
         int responseCode = conn.getResponseCode();
-        System.out.println("\nSending 'POST' request to URL : " + fullApi);
-        System.out.println("Post parameters : " + content);
-        System.out.println("Response Code : " + responseCode);
+//        System.out.println("\nSending 'POST' request to URL : " + fullApi);
+//        System.out.println("Post parameters : " + content);
+//        System.out.println("Response Code : " + responseCode);
  
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(conn.getInputStream()));
@@ -61,7 +61,7 @@ public class Pusher {
             response.append(inputLine);
         }
         in.close();
-        System.out.println(response);
+//        System.out.println(response);
         return response.toString();
     }
 }
