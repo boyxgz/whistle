@@ -4,9 +4,12 @@
 package com.surelution.whistle.push.qrcode;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
@@ -19,7 +22,7 @@ import com.surelution.whistle.push.Pusher;
  */
 public class QrCode {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
     	//https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx2cf329ea10f55add&secret=9809ef130c920db8d7702f0b5e042de9
 //        String cmd = "";
 //        InputStreamReader isr = new InputStreamReader(Menu.class.getResourceAsStream("qr-code.txt"));
@@ -39,24 +42,24 @@ public class QrCode {
 //        String ticket = o.getString("ticket");
 //        System.out.println(ticket);
     	
+//    	List<String> lines = IOUtils.readLines(new FileInputStream(new File("/Users/johnny/Desktop/wx.txt")));
     	for(int i = 0; i < 200; i++) {
-    		if(i == 33 || i == 40) {
-
-        		try{
-    	    		String ticket = getTicket(i);
-    	        	URL url = new URL("https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + ticket);
-    	        	InputStream is = url.openStream();
-    	        	File file = new File("/Users/johnny/temp/" + i + ".jpg");
-    	        	FileOutputStream fos = new FileOutputStream(file);
-    	        	IOUtils.copy(is, fos);
-        		}catch(Exception e) {
-        			System.out.println(i);
-        		}
+    		try{
+	    		String ticket = getTicket(i + "");
+	        	URL url = new URL("https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + ticket);
+	        	System.out.println(url);
+	        	InputStream is = url.openStream();
+	        	File file = new File("/Users/johnny/temp/" + i + ".jpg");
+	        	FileOutputStream fos = new FileOutputStream(file);
+	        	IOUtils.copy(is, fos);
+    		}catch(Exception e) {
+    			e.printStackTrace();
+    			System.out.println(i);
     		}
     	}
     }
     
-    private static String getTicket(long id) throws Exception {
+    private static String getTicket(String id) throws Exception {
     	String s = "{\"action_name\": \"QR_LIMIT_SCENE\", \"action_info\": {\"scene\": {\"scene_id\": ";
     	s += id;
     	s += "}}}";
@@ -71,7 +74,7 @@ public class QrCode {
         JSONObject o = new JSONObject(ret);
         String ticket = o.getString("ticket");
 //        System.out.println(ticket);
-    	
-    	return ticket;
+        return URLEncoder.encode(ticket, "utf-8");
+//    	return ticket;
     }
 }

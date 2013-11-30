@@ -26,17 +26,22 @@ public class Q {
 			path += i;
 			path += ".jpg";
 			try{
-				BufferedImage image = ImageIO.read(new File(path));
-				LuminanceSource ls = new BufferedImageLuminanceSource(image);
-				HybridBinarizer hb = new HybridBinarizer(ls);
-				BinaryBitmap bb = new BinaryBitmap(hb);
-				QRCodeReader r = new QRCodeReader();
-				String s = r.decode(bb).getText();
-				System.out.print(i);
-				System.out.print(":");
-				System.out.println(s);
-				GenerateCode.generate(s, i);
-			}catch(Exception e){}
+				File file = new File(path);
+				if(file.exists()) {
+					BufferedImage image = ImageIO.read(file);
+					LuminanceSource ls = new BufferedImageLuminanceSource(image);
+					HybridBinarizer hb = new HybridBinarizer(ls);
+					BinaryBitmap bb = new BinaryBitmap(hb);
+					QRCodeReader r = new QRCodeReader();
+					String s = r.decode(bb).getText();
+					System.out.print(i);
+					System.out.print(":");
+					System.out.println(s);
+					GenerateCode.generate(s, i);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 		
 	}
