@@ -27,10 +27,20 @@ public class Configure {
 	private static Map<String, Configure> instances = new HashMap<String, Configure>();
 
 	private String token;
+	private String secret;
+	private String appid;
 	final private ArrayList<String> names = new ArrayList<String>();
 
 	public String getToken() {
 		return token;
+	}
+
+	public String getSecret() {
+		return secret;
+	}
+
+	public String getAppid() {
+		return appid;
 	}
 
 	public Iterable<String> getProcessorNames() {
@@ -53,6 +63,8 @@ public class Configure {
 				parser.parse(is, new DefaultHandler(){
 					boolean tokenEle = false;
 					boolean processorEle = false;
+					boolean appidEle = false;
+					boolean secretEle = false;
 
 					/* (non-Javadoc)
 					 * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
@@ -65,6 +77,10 @@ public class Configure {
 							tokenEle = true;
 						} else if("processor".equals(qName)) {
 							processorEle = true;
+						} else if("appid".equals(qName)) {
+							appidEle = true;
+						} else if("secret".equals(qName)) {
+							secretEle = true;
 						}
 					}
 					
@@ -78,6 +94,10 @@ public class Configure {
 							tokenEle = false;
 						} else if("processor".equals(qName)) {
 							processorEle = false;
+						} else if("appid".equals(qName)) {
+							appidEle = false;
+						} else if("secret".equals(qName)) {
+							secretEle = false;
 						}
 					}
 					
@@ -97,6 +117,16 @@ public class Configure {
 							if(s != null && !s.equals("")) {
 								names.add(s);
 							}
+						} else if(appidEle) {
+							String s= new String(ch, start, length);
+							if(s != null && !s.equals("")) {
+								appid = s;
+							}
+						} else if(secretEle) {
+							String s= new String(ch, start, length);
+							if(s != null && !s.equals("")) {
+								secret = s;
+							}
 						}
 					}
 				});
@@ -112,7 +142,7 @@ public class Configure {
 	public static Configure config() {
 		return config("whistle.xml");
 	}
-	
+
 	public synchronized static Configure config(String file) {
 		Configure cfg;
 		if(!instances.containsKey(file)) {
