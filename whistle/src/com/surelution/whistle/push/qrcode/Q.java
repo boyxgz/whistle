@@ -34,13 +34,15 @@ public class Q {
 					BinaryBitmap bb = new BinaryBitmap(hb);
 					QRCodeReader r = new QRCodeReader();
 					String s = r.decode(bb).getText();
-					System.out.print(i);
-					System.out.print(":");
-					System.out.println(s);
-					GenerateCode.generate(s, i);
+					String sql = "update gas_station set subscribing_url='" + s + "' where id= " + i + ";";
+//					System.out.print(i);
+//					System.out.print(":");
+//					System.out.println(s);
+//					GenerateCode.generate(s, i);
+					System.out.println(sql);
 				}
 			}catch(Exception e){
-				e.printStackTrace();
+				System.out.println(" !! update gas_station set subscribing_url='' where id= " + i + ";");
 			}
 		}
 		

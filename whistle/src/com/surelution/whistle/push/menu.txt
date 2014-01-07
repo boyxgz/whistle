@@ -1,37 +1,65 @@
 {
      "button":[
-     {	
-          "type":"click",
-          "name":"省钱攻略",
-          "key":"saving"
+      {
+           "name":"省钱攻略",
+           "sub_button":[
+            {
+               "type":"click",
+               "name":"特惠活动",
+               "key":"ICCARD_PROMOTION"
+            },
+            {
+               "type":"click",
+               "name":"便利店",
+               "key":"USMILE"
+            },
+            {
+               "type":"click",
+               "name":"自助站",
+               "key":"SELFHELP-STATION"
+            }]
       },
       {
-           "type":"click",
-           "name":"油站导航",
-           "key":"navigation"
+           "name":"司机之家",
+           "sub_button":[
+            {
+               "type":"view",
+               "name":"油站导航",
+               "url":"http://suzhou.sh-hansi.com/dynArticle/filePath/navigationDemo"
+            },
+            {
+               "type":"view",
+               "name":"苏州天气",
+               "url":"http://suzhou.sh-hansi.com/dynArticle/filePath/weather"
+            },
+            {
+               "type":"click",
+               "name":"油品百科",
+               "key":"PRODUCT-WIKI"
+            },
+            {
+               "type":"click",
+               "name":"我的加油卡",
+               "key":"ABOUT-US"
+            },
+            {
+               "type":"click",
+               "name":"违章查询",
+               "key":"vehViolate"
+            }]
       },
       {
            "name":"更多",
            "sub_button":[
             {
                "type":"click",
-               "name":"违章查询",
-               "key":"vehViolate"
-            },
-            {
-               "type":"click",
-               "name":"联系小U",
-               "key":"contactU"
+               "name":"咨询与建议",
+               "key":"key_comments"
             },
             {
                "type":"click",
                "name":"我的奖品",
-               "key":"myPrize"
-            },
-            {
-               "type":"click",
-               "name":"小朋友，来白相",
-               "key":"gameDemo"
+               "key":"key_myPrize"
             }]
-       }]
+      }]
  }

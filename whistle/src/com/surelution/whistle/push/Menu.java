@@ -20,7 +20,7 @@ public class Menu {
         br.close();
         Pusher p = new Pusher();
         p.setApiUrl("https://api.weixin.qq.com/cgi-bin/menu/create");
-        p.setAccessToken("2D3L_eh0-uKRCSLBrk10s31VDu6QAIxKXzbHKdPEAt9o8FHlGiIbiESKgA5U2n5LjH7H0yzte-eVI4u_eW8tJ1Rl8Kqqv7JCGxn5t17uMy8JqhwgZrfPDz3I9YzjLB-Ulz23QInl3RYWGNX6Pq-Ixw");
+        p.setAccessToken("-OQksFpkj-mCBh0J19FYVceadl1i9htkSfcmxvtYpU4vZsH50fbWPwaVgOXHVguKG-WFYUwwb8KqyDBdSujjsmTms_tJeNrOnOxeLUboF4Yz7QeKXuZLoN2aVxYdFEDrA7q9gC-cEaGYAjNc6HmIiA");
         p.push(cmd);
     }
 }

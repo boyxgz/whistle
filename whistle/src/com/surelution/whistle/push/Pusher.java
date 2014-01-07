@@ -61,7 +61,7 @@ public class Pusher {
             response.append(inputLine);
         }
         in.close();
-//        System.out.println(response);
+        System.out.println(response);
         return response.toString();
     }
 }
