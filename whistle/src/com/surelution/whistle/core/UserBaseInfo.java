@@ -19,45 +19,27 @@ import org.json.JSONObject;
 
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
- *
+ * snsapi_base of wechat api
  */
-public class AccessToken {
+public class UserBaseInfo {
 	
-	public AccessToken(Configure c) {
+	public UserBaseInfo(Configure c) {
 		this.c = c;
 	}
 	
 	private Configure c;
-	
-	public String getAccessToken() {
-		if(expireAt < System.currentTimeMillis()) {
-			try {
-				map = pull();
-				String expiresIn = (String)map.get("expires_in");
-				expireAt = System.currentTimeMillis() + Long.parseLong(expiresIn) * 1000 - 10000;
-				accessToken = (String)map.get("access_token");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return accessToken;
-	}
-	
-	private String accessToken;
-	private long expireAt;
-	
-	private Map map;
-	
-	private Map pull() throws Exception {
-		System.out.println("pull token ...");
+
+	public String getUserOpenId(String code) throws Exception {
 		String appid = c.getAppid();
 		String secret = c.getSecret();
 		
 		DefaultHttpClient httpclient = new DefaultHttpClient();
-		StringBuilder sb = new StringBuilder("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=");
+		StringBuilder sb = new StringBuilder("https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&appid=");
 		sb.append(appid);
 		sb.append("&secret=");
 		sb.append(secret);
+		sb.append("&code=");
+		sb.append(code);
 		HttpGet httpGet = new HttpGet(sb.toString());
 		HttpResponse response = httpclient.execute(httpGet);
 		HttpEntity entity = response.getEntity();
@@ -86,12 +68,7 @@ public class AccessToken {
             result.put(key, value);
         }
 //        System.out.println(result);
-        return result;
-	}
-
-	public static void main(String[] args) throws Exception {
-		Configure c = Configure.config();
-		AccessToken at = new AccessToken(c);
-		System.out.println(at.getAccessToken());
+        return (String)result.get("openid");
+	
 	}
 }
