@@ -31,9 +31,7 @@ public class CredentialHelper {
 	
 	private static String getApiUrl() {
 		Configure c = Configure.config();
-		String s = API_URL_TEMPLATE.replace("<appid>", c.getAppid());
-		s = s.replace("<secret>", c.getSecret());
-		return s;
+		return API_URL_TEMPLATE.replace("<appid>", c.getAppid()).replace("<secret>", c.getSecret());
 	}
 	
 	public static String getAccessToken() {
