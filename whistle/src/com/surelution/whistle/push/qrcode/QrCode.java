@@ -69,7 +69,7 @@ public class QrCode {
 
         Pusher p = new Pusher();
         p.setApiUrl("https://api.weixin.qq.com/cgi-bin/qrcode/create");
-        p.setAccessToken("0-kI6j3aWctDmtBm_9jM3CogfbtCQdUpWJiRL3nQY5OzOO3zZrMeUsYBsPnuM9OJ98jIpiIeGgpMx-K6p4min_mHPfJFqd2x3_683Tcpvb6zTrP9CQ8usV5x_rAfm01030mcGe7eHYI5zUQvLKgy5A");
+//        p.setAccessToken("0-kI6j3aWctDmtBm_9jM3CogfbtCQdUpWJiRL3nQY5OzOO3zZrMeUsYBsPnuM9OJ98jIpiIeGgpMx-K6p4min_mHPfJFqd2x3_683Tcpvb6zTrP9CQ8usV5x_rAfm01030mcGe7eHYI5zUQvLKgy5A");
         String ret = p.push(s);
         JSONObject o = new JSONObject(ret);
         String ticket = o.getString("ticket");
