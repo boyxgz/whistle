@@ -36,7 +36,7 @@ public class Pusher {
    
     public String push(String content) throws NetworkException {
     	try{
-	        String fullApi = apiUrl + "?access_token=" + CredentialHelper.getAccessToken();
+	        String fullApi = apiUrl + "access_token=" + CredentialHelper.getAccessToken();
 	        URL url = new URL(fullApi);
 	        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 	        
@@ -45,10 +45,12 @@ public class Pusher {
 	        conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 	 
 	        conn.setDoOutput(true);
-	        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-	        writer.write(content);
-	        writer.flush();
-	        writer.close();
+	        if(content != null) {
+		        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+		        writer.write(content);
+		        writer.flush();
+		        writer.close();
+	        }
 	 
 	        int responseCode = conn.getResponseCode(); //TODO how to handle the code?
 	 

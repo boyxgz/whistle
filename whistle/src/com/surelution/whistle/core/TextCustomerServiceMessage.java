@@ -21,4 +21,10 @@ public class TextCustomerServiceMessage extends CustomerServiceMessage {
 		put("text", c);
 	}
 	
+	public static void main(String[] args) throws Exception {
+		TextCustomerServiceMessage tsm = new TextCustomerServiceMessage();
+		tsm.setContent("dasfds");
+		tsm.setTouser("oklOVjgRVFE8UiqhmYCEBnkv-Nww");
+		tsm.send();
+	}
 }

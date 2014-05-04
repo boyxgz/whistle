@@ -49,7 +49,7 @@ public class CustomerServiceMessage {
 	
 	public void send() throws ReplyTimeoutException {
 		Pusher p = new Pusher();
-		p.setApiUrl("https://api.weixin.qq.com/cgi-bin/message/custom/send");
+		p.setApiUrl("https://api.weixin.qq.com/cgi-bin/message/custom/send?");
 		try {
 			String ret = p.push(toJson());
 			JSONObject o = new JSONObject(ret);
