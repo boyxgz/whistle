@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>  
 <wx>
-	<token>hunantest</token>
-	<appid>wx2fc522376d1831c4</appid>
-	<secret>95fe6dd42e9355220356a3b4b1ffcd83</secret>
+	<token>whistle</token>
+	<appid>xxxx</appid>
+	<secret>yyyy</secret>
 	<processor-chain>
 		<processor>com.surelution.whistle.core.SampleAction</processor>
 	</processor-chain>
