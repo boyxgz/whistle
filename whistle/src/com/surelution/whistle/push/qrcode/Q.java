@@ -21,8 +21,8 @@ import com.google.zxing.qrcode.QRCodeReader;
 public class Q {
 
 	public static void main(String[] args) throws Exception {
-		for(int i = 0; i < 200; i++) {
-			String path = "/Users/johnny/temp/";
+		for(int i = 1; i < 600; i++) {
+			String path = "/Users/johnny/temp-zj/";
 			path += i;
 			path += ".jpg";
 			try{

@@ -24,10 +24,10 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  */
 public class GenerateCode {
 
-	public static void generate(String content, String f) throws Exception {
+	public static void generate(String content, String path, String f) throws Exception {
 		int QRCODE_IMAGE_HEIGHT = 1280;
 		int QRCODE_IMAGE_WIDTH = 1280;
-		String IMAGE_PATH = "/Users/johnny/temp2";
+		String IMAGE_PATH = "/Users/johnny/hunan-qr";
 
 		HashMap<EncodeHintType, ErrorCorrectionLevel> hints = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
 		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
@@ -56,7 +56,7 @@ public class GenerateCode {
         
 
 //		BufferedImage image = MatrixToImageWriter.toBufferedImage(matrix);
-		BufferedImage overlay = ImageIO.read(new File("/Users/johnny/temp2/logo.png"));
+		BufferedImage overlay = ImageIO.read(new File("/Users/johnny/hunan-qr/logo.png"));
 
 		// Calculate the delta height and width
 		int deltaHeight = image.getHeight() - overlay.getHeight();
@@ -71,12 +71,16 @@ public class GenerateCode {
 		g.drawImage(overlay, (int) Math.round(deltaWidth / 2),
 				(int) Math.round(deltaHeight / 2), null);
 
-		File imageFile = new File(IMAGE_PATH, f + ".png");
+		File folder = new File(IMAGE_PATH + path);
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		File imageFile = new File(IMAGE_PATH + path, f + ".png");
 		ImageIO.write(combined, "PNG", imageFile);
 
 	}
 	
 	public static void main(String[] args) throws Exception {
-		generate("dafds", "100");
+		generate("dafds", "", "100");
 	}
 }

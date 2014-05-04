@@ -25,12 +25,12 @@
             {
                "type":"view",
                "name":"油站导航",
-               "url":"http://suzhou.sh-hansi.com/dynArticle/filePath/navigationDemo"
+               "url":"http://surelution.dlinkddns.com/suzhou-weixin/dynArticle/filePath/navigationDemo"
             },
             {
                "type":"view",
                "name":"苏州天气",
-               "url":"http://suzhou.sh-hansi.com/dynArticle/filePath/weather"
+               "url":"http://surelution.dlinkddns.com/suzhou-weixin/dynArticle/filePath/weather"
             },
             {
                "type":"click",
@@ -60,6 +60,11 @@
                "type":"click",
                "name":"我的奖品",
                "key":"key_myPrize"
+            },
+            {
+               "type":"view",
+               "name":"3月活动",
+               "url":"http://mp.weixin.qq.com/s?__biz=MzA4MDAyMDUxOQ==&mid=200033806&idx=1&sn=54e07967fae2a778619fe8d67f487b32#rd"
             }]
       }]
  }

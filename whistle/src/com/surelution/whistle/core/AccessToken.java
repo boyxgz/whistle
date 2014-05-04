@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
- *
+ * @deprecated
  */
 public class AccessToken {
 	

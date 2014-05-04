@@ -43,13 +43,13 @@ public class QrCode {
 //        System.out.println(ticket);
     	
 //    	List<String> lines = IOUtils.readLines(new FileInputStream(new File("/Users/johnny/Desktop/wx.txt")));
-    	for(int i = 0; i < 200; i++) {
+    	for(int i = 400; i < 401; i++) {
     		try{
-	    		String ticket = getTicket(i + "");
-	        	URL url = new URL("https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + ticket);
+	    		String ticket = getTicket(i);
+	        	URL url = new URL("http://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + ticket);
 	        	System.out.println(url);
 	        	InputStream is = url.openStream();
-	        	File file = new File("/Users/johnny/temp/" + i + ".jpg");
+	        	File file = new File("/Users/johnny/Google Drive/微信/湖南/qr-orig/" + i + ".jpg");
 	        	FileOutputStream fos = new FileOutputStream(file);
 	        	IOUtils.copy(is, fos);
     		}catch(Exception e) {
@@ -59,7 +59,7 @@ public class QrCode {
     	}
     }
     
-    private static String getTicket(String id) throws Exception {
+    private static String getTicket(int id) throws Exception {
     	String s = "{\"action_name\": \"QR_LIMIT_SCENE\", \"action_info\": {\"scene\": {\"scene_id\": ";
     	s += id;
     	s += "}}}";
@@ -69,7 +69,7 @@ public class QrCode {
 
         Pusher p = new Pusher();
         p.setApiUrl("https://api.weixin.qq.com/cgi-bin/qrcode/create");
-        p.setAccessToken("k3gDYsCHaUKas-9YSWIt7ynwYNI6ejOBH6GW8wAqV6U7TFnARpAjJIEHkm3C--dx0Z-9OEhnZeF-J9-hmEVQHNkI8yodoq5L8iIXpaK_HBFzsYSPjWAvEyHZdESYRJs56aWzeTxVpBcseMue9v6xzw");
+        p.setAccessToken("0-kI6j3aWctDmtBm_9jM3CogfbtCQdUpWJiRL3nQY5OzOO3zZrMeUsYBsPnuM9OJ98jIpiIeGgpMx-K6p4min_mHPfJFqd2x3_683Tcpvb6zTrP9CQ8usV5x_rAfm01030mcGe7eHYI5zUQvLKgy5A");
         String ret = p.push(s);
         JSONObject o = new JSONObject(ret);
         String ticket = o.getString("ticket");

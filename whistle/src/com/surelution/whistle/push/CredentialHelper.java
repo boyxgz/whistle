@@ -24,8 +24,9 @@ import com.surelution.whistle.core.Configure;
  */
 public class CredentialHelper {
 	
-	private static int lastFetch;
-	private static int expireAt;
+	private static long lastFetch;
+	private static long expireAt;
+	private static String accessToken;
 
 	public static final String API_URL_TEMPLATE = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=<appid>&secret=<secret>";
 	
@@ -35,26 +36,32 @@ public class CredentialHelper {
 	}
 	
 	public static String getAccessToken() {
-		String url = getApiUrl();
-		HttpGet get = new HttpGet(url);
-		HttpClient client = new DefaultHttpClient();
-		try {
-			HttpResponse response = client.execute(get);
-			InputStream is = response.getEntity().getContent();
-			String content = IOUtils.toString(is);
-			JSONObject o;
+		long now = System.currentTimeMillis();
+		if(now >= expireAt) {
+			System.out.println("fetch access token");
+			lastFetch = System.currentTimeMillis();
+			String url = getApiUrl();
+			HttpGet get = new HttpGet(url);
+			HttpClient client = new DefaultHttpClient();
 			try {
-				o = new JSONObject(content);
-		        String ticket = o.getString("ticket");
-		        String expireAt = o.getString("");
-			} catch (JSONException e) {
+				HttpResponse response = client.execute(get);
+				InputStream is = response.getEntity().getContent();
+				String content = IOUtils.toString(is);
+				try {
+					JSONObject o = new JSONObject(content);
+					accessToken = o.getString("access_token");
+			        String expireIn = o.getString("expires_in");
+			        expireAt = now + Integer.parseInt(expireIn) * 1000 - 10000;//提前10秒钟刷新access token
+			        lastFetch = now;
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-		return null;
+		return accessToken;
 	}
 }
