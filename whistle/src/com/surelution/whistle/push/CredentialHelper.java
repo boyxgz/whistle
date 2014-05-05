@@ -49,6 +49,9 @@ public class CredentialHelper {
 				String content = IOUtils.toString(is);
 				try {
 					JSONObject o = new JSONObject(content);
+//					if(o.getInt("errcode") != 0) {
+//						//TODO some exception should be thrown?
+//					}
 					accessToken = o.getString("access_token");
 			        String expireIn = o.getString("expires_in");
 			        expireAt = now + Integer.parseInt(expireIn) * 1000 - 10000;//提前10秒钟刷新access token
