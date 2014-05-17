@@ -18,7 +18,7 @@ public class Menu {
         }
         br.close();
         Pusher p = new Pusher();
-        p.setApiUrl("https://api.weixin.qq.com/cgi-bin/menu/create?");
+        p.setApiUrl("https://api.weixin.qq.com/cgi-bin/menu/create?"); 
         p.push(cmd);
     }
 }
