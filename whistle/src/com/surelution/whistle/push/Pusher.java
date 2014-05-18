@@ -46,7 +46,7 @@ public class Pusher {
 	 
 	        conn.setDoOutput(true);
 	        if(content != null) {
-		        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+		        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "utf-8"));
 		        writer.write(content);
 		        writer.flush();
 		        writer.close();
@@ -55,7 +55,7 @@ public class Pusher {
 	        int responseCode = conn.getResponseCode(); //TODO how to handle the code?
 	 
 	        BufferedReader in = new BufferedReader(
-	                new InputStreamReader(conn.getInputStream()));
+	                new InputStreamReader(conn.getInputStream(), "utf-8"));
 	        String inputLine;
 	        StringBuffer response = new StringBuffer();
 	 
