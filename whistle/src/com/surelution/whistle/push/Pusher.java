@@ -5,10 +5,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class Pusher {
 
@@ -38,7 +37,7 @@ public class Pusher {
     	try{
 	        String fullApi = apiUrl + "access_token=" + CredentialHelper.getAccessToken();
 	        URL url = new URL(fullApi);
-	        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	        
 	        conn.setRequestMethod(requestMethod);
 	        conn.setRequestProperty("Content-Type","text/plain; charset=utf-8");
