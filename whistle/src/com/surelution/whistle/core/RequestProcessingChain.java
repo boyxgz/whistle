@@ -16,7 +16,7 @@ public class RequestProcessingChain {
 	private static Map<String, RequestProcessingChain> instances = new HashMap<String, RequestProcessingChain>();
 	private ClassLoader classLoader;
 
-	private ArrayList<BaseAction> processors = new ArrayList<BaseAction>();
+	private ArrayList<Class<BaseAction>> processors = new ArrayList<Class<BaseAction>>();
 
 	private RequestProcessingChain(ClassLoader classLoader, String cfgFile) {
 		this.classLoader = classLoader;
@@ -27,13 +27,9 @@ public class RequestProcessingChain {
 		for(String processorName : config.getProcessorNames()) {
 			if(processorName != null) {
 				try {
-					Class<?> c = this.classLoader.loadClass(processorName);
-					processors.add((BaseAction) c.newInstance());
+					Class<BaseAction> c = (Class<BaseAction>)this.classLoader.loadClass(processorName);
+					processors.add( c);
 				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
 					e.printStackTrace();
 				}
 			}
@@ -41,7 +37,16 @@ public class RequestProcessingChain {
 	}
 
 	public String getContent(Map<String, String> map) {
-		for(BaseAction processor : processors) {
+		for(Class<BaseAction> cProcessor : processors) {
+			//TODO how to handle ?
+			BaseAction processor = null;
+			try {
+				processor = cProcessor.newInstance();
+			} catch (InstantiationException e1) {
+				e1.printStackTrace();
+			} catch (IllegalAccessException e1) {
+				e1.printStackTrace();
+			}
 			System.out.print("try ");
 			System.out.println(processor.getClass().getName());
 			processor.feed(map);

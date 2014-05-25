@@ -61,7 +61,7 @@ public abstract class BaseAction {
 		
 	}
 
-	final public String buildXml() {
+	public String buildXml() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<xml>");
 		for(Entry<String, Attribute> entry : outcomeParams.entrySet()) {
