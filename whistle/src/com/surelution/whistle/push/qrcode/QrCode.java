@@ -4,12 +4,10 @@
 package com.surelution.whistle.push.qrcode;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
@@ -21,6 +19,18 @@ import com.surelution.whistle.push.Pusher;
  *
  */
 public class QrCode {
+	
+	public static InputStream getQr(int id) {
+		try {
+			String ticket = getTicket(id);URL url = new URL("http://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + ticket);
+        	System.out.println(url);
+        	InputStream is = url.openStream();
+        	return is;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
     public static void main(String[] args) throws Exception {
     	//https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx2cf329ea10f55add&secret=9809ef130c920db8d7702f0b5e042de9
@@ -43,7 +53,7 @@ public class QrCode {
 //        System.out.println(ticket);
     	
 //    	List<String> lines = IOUtils.readLines(new FileInputStream(new File("/Users/johnny/Desktop/wx.txt")));
-    	for(int i = 400; i < 401; i++) {
+    	for(int i = 20000; i < 20003; i++) {
     		try{
 	    		String ticket = getTicket(i);
 	        	URL url = new URL("http://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + ticket);
@@ -68,7 +78,7 @@ public class QrCode {
     	
 
         Pusher p = new Pusher();
-        p.setApiUrl("https://api.weixin.qq.com/cgi-bin/qrcode/create");
+        p.setApiUrl("https://api.weixin.qq.com/cgi-bin/qrcode/create?");
 //        p.setAccessToken("0-kI6j3aWctDmtBm_9jM3CogfbtCQdUpWJiRL3nQY5OzOO3zZrMeUsYBsPnuM9OJ98jIpiIeGgpMx-K6p4min_mHPfJFqd2x3_683Tcpvb6zTrP9CQ8usV5x_rAfm01030mcGe7eHYI5zUQvLKgy5A");
         String ret = p.push(s);
         JSONObject o = new JSONObject(ret);
