@@ -29,6 +29,12 @@ public class Configure {
 	private String token;
 	private String secret;
 	private String appid;
+	private Boolean checkRequestRestrictly = false;
+
+	public Boolean getCheckRequestRestrictly() {
+		return checkRequestRestrictly;
+	}
+
 	final private ArrayList<String> names = new ArrayList<String>();
 
 	public String getToken() {
@@ -65,6 +71,7 @@ public class Configure {
 					boolean processorEle = false;
 					boolean appidEle = false;
 					boolean secretEle = false;
+					boolean checkRequestRestrictlyEle = false;
 
 					/* (non-Javadoc)
 					 * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
@@ -81,6 +88,8 @@ public class Configure {
 							appidEle = true;
 						} else if("secret".equals(qName)) {
 							secretEle = true;
+						} else if("checkRequestRestrictly".equals(qName)) {
+							checkRequestRestrictlyEle = true;
 						}
 					}
 					
@@ -98,6 +107,8 @@ public class Configure {
 							appidEle = false;
 						} else if("secret".equals(qName)) {
 							secretEle = false;
+						} else if("checkRequestRestrictly".equals(qName)) {
+							checkRequestRestrictlyEle = false;
 						}
 					}
 					
@@ -126,6 +137,11 @@ public class Configure {
 							String s= new String(ch, start, length);
 							if(s != null && !s.equals("")) {
 								secret = s;
+							}
+						} else if(checkRequestRestrictlyEle) {
+							String s= new String(ch, start, length);
+							if("1".equals(s) || "true".equals(s)) {
+								checkRequestRestrictly = true;
 							}
 						}
 					}
