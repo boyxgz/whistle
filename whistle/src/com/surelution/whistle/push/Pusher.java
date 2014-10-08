@@ -36,6 +36,7 @@ public class Pusher {
     public String push(String content) throws NetworkException {
     	try{
 	        String fullApi = apiUrl + "access_token=" + CredentialHelper.getAccessToken();
+	        System.out.println( fullApi);
 	        URL url = new URL(fullApi);
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	        
@@ -69,6 +70,7 @@ public class Pusher {
     		throw new NetworkException();
     	} catch(IOException e) {
     		System.out.println("network error");
+    		e.printStackTrace();
     		throw new NetworkException();
     	}
     }

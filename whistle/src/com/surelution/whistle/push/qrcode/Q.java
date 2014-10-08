@@ -45,8 +45,8 @@ public class Q {
 		System.out.println(System.currentTimeMillis());
 		Hashtable<DecodeHintType, String> hints = new Hashtable<DecodeHintType, String>();  
 		hints.put(DecodeHintType.CHARACTER_SET, "utf-8");
-		for(int i = 1589; i < 1590; i++) {
-			String path = "/Users/johnny/Google Drive/微信/menguanjia/qr-orig/";
+		for(int i = 540; i < 541; i++) {
+			String path = "/Users/johnny/hunan-qr/";
 			path += i;
 			path += ".jpg";
 			try{

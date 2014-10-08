@@ -1,26 +1,50 @@
 /**
  * 
  */
-package com.surelution.whistle.push;
+package com.surelution.whistle.core;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.surelution.whistle.core.Configure;
-
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
- * @deprecated <br/>
- * refer to  com.surelution.whistle.core.Auth2Util.getOpenidByCode(String code) 
+ *
  */
-public class OAuthHelper {
+public class Auth2Util {
+
+	public static String buildRedirectUrl(String dest, String state, AuthScope scope) {
+		String s1 = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=";
+		String s2 = "&redirect_uri=";
+		String s3 = "&response_type=code&scope=";
+		String s4 = "&state=";
+		String s5 = "#wechat_redirect";
+		StringBuilder sb = new StringBuilder(s1);
+		Configure c = Configure.config();
+		sb.append(c.getAppid());
+		sb.append(s2);
+		try {
+			sb.append(URLEncoder.encode(dest, "utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		sb.append(s3);
+		sb.append(scope);
+		if(state != null) {
+			sb.append(s4);
+			sb.append(state);
+		}
+		sb.append(s5);
+		return sb.toString();
+	}
 
 	public static String getOpenidByCode(String code) throws Exception {
 		String openid = null;
@@ -64,19 +88,20 @@ public class OAuthHelper {
 		return openid;
 	}
 	
-	public static void main(String[] args) throws Exception {
-//		String s = "{ 'access_token ': 'OezXcEiiBSKSxW0eoylIeG6H_hrTRAVJO-TatR1HI2Dc-5RE0QQ4qZuWAw3QDgfy9qCF4keMd6IVQGueKmLWxKld9tiKd7-EzaozDuJxCFMTohAPwNgR5NxoQXHn9oiDk6mjY_JVOc10DxnlT8iy7Q ', 'expires_in ':7200, 'refresh_token ': 'OezXcEiiBSKSxW0eoylIeG6H_hrTRAVJO-TatR1HI2Dc-5RE0QQ4qZuWAw3QDgfylcZWglrusnd2HdyjV1_MQE5HKw6MGIp88n0EVrIqOPV-UknVqub53yKMQhwfBcBh3tKPj9InSWyZ5IMgZTbYzg ', 'openid ': 'opvOft9Iezj9ZcjyZ1NNXP7ZYgVI ', 'scope ': 'snsapi_base '}";
-//
-//		String openid = "";
-//		JSONObject jsonObject = null;
-//		try {
-//			jsonObject = new JSONObject(s);
-//			openid = (String)jsonObject.getString("openid ");
-//			
-//			System.out.println(openid);
-//		} catch (JSONException e1) {
-//			e1.printStackTrace(); //TODO throw some exception?
-//		}
-		System.out.println(getOpenidByCode("01c51c7405752cdbdc1b92f71e05be61"));
+	public enum AuthScope {
+		BASE("snsapi_base"), USER_INFO("snsapi_userinfo");
+		
+		private String value;
+		private AuthScope(String v) {
+			value = v;
+		}
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
+		@Override
+		public String toString() {
+			return value;
+		}
 	}
 }

@@ -137,6 +137,25 @@ public class UserInfo {
 		return ret;
 	}
 	
+	public static void updateUserGroup(String openId, String groupId) {
+		String url = "https://api.weixin.qq.com/cgi-bin/groups/members/update?";
+		Pusher p = new Pusher();
+		p.setApiUrl(url);
+		try {
+			//{"openid":"oDF3iYx0ro3_7jD4HFRDfrjdCM58","to_groupid":108}
+			StringBuilder sb = new StringBuilder("{\"openid\":\"");
+			sb.append(openId);
+			sb.append("\",\"to_groupid\":");
+			sb.append(groupId);
+			sb.append("}");
+			System.out.println(sb);
+			p.push(sb.toString());
+		} catch (NetworkException e) {
+			e.printStackTrace();
+		}
+	
+	}
+	
 	public static UserInfo loadUserInfo(String openId) {
 		String json = loadUserInfoAsJson(openId);
 		JSONObject jsonObject = null;
