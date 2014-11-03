@@ -98,4 +98,10 @@ public abstract class BaseAction {
 		}
 		return pattern;
 	}
+
+    protected boolean isMenu(String key) {
+        return "event".equals(getParam(Attribute.KEY_MsgType))
+        		&& "CLICK".equals(getParam("Event"))
+        		&& key.equals(getParam("EventKey"));
+    }
 }
