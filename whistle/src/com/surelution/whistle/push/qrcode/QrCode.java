@@ -49,14 +49,14 @@ public class QrCode {
     public static void main(String[] args) throws Exception {
 //    	String s = getTempTicket(123456778, 1200);
 //    	System.out.println(s);
-    	for(int i = 540; i < 541; i++) {
+    	for(int i = 20; i < 21; i++) {
     		try{
 	    		String ticket = getTicket(i);
 	    		System.out.println(ticket);
 	        	URL url = new URL("http://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + ticket);
 	        	System.out.println(url);
 	        	InputStream is = url.openStream();
-	        	File file = new File("/Users/johnny/hunan-qr/" + i + ".jpg");
+	        	File file = new File("/Users/johnny/menguanjia/" + i + ".jpg");
 	        	FileOutputStream fos = new FileOutputStream(file);
 	        	IOUtils.copy(is, fos);
     		}catch(Exception e) {
