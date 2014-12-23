@@ -29,6 +29,11 @@ public class Configure {
 	private String token;
 	private String secret;
 	private String appid;
+	private String encodingAESKey;
+	public String getEncodingAESKey() {
+		return encodingAESKey;
+	}
+
 	private Boolean checkRequestRestrictly = false;
 
 	public Boolean getCheckRequestRestrictly() {
@@ -71,6 +76,7 @@ public class Configure {
 					boolean processorEle = false;
 					boolean appidEle = false;
 					boolean secretEle = false;
+					boolean encodingAESKeyEle =false;
 					boolean checkRequestRestrictlyEle = false;
 
 					/* (non-Javadoc)
@@ -88,6 +94,8 @@ public class Configure {
 							appidEle = true;
 						} else if("secret".equals(qName)) {
 							secretEle = true;
+						} else if("encodingAESKey".equals(qName)){
+							encodingAESKeyEle = true;
 						} else if("checkRequestRestrictly".equals(qName)) {
 							checkRequestRestrictlyEle = true;
 						}
@@ -107,6 +115,8 @@ public class Configure {
 							appidEle = false;
 						} else if("secret".equals(qName)) {
 							secretEle = false;
+						} else if("encodingAESKey".equals(qName)){
+							encodingAESKeyEle = false;
 						} else if("checkRequestRestrictly".equals(qName)) {
 							checkRequestRestrictlyEle = false;
 						}
@@ -137,6 +147,11 @@ public class Configure {
 							String s= new String(ch, start, length);
 							if(s != null && !s.equals("")) {
 								secret = s;
+							}
+						} else if(encodingAESKeyEle) {
+							String s= new String(ch, start, length);
+							if(s != null && !s.equals("")) {
+								encodingAESKey = s;
 							}
 						} else if(checkRequestRestrictlyEle) {
 							String s= new String(ch, start, length);

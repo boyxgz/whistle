@@ -97,12 +97,12 @@ public class TemplateMessage {
 		}
 		sb.append(buildPair2("data", sb2.toString()));
 		sb.append("}");
-//		System.out.println(sb);
+		System.out.println(sb);
 		Pusher p = new Pusher();
 		p.setApiUrl("https://api.weixin.qq.com/cgi-bin/message/template/send?");
-//		String ret = 
+		String ret = 
 				p.push(sb.toString());
-//		System.out.println(ret);
+		System.out.println(ret);
 	}
 	
 	private String buildPair(String key, String value) {
