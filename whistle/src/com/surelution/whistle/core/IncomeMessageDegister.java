@@ -97,9 +97,4 @@ public class IncomeMessageDegister {
 		}
 	}
 	
-	public static void main(String[] args) {
-		String content = "<xml><ToUserName><![CDATA[gh_ae95f90ce04c]]></ToUserName><FromUserName><![CDATA[on0OzjiM1hmIQVxu00uta1Xiy2Zo]]></FromUserName><CreateTime>1419319540</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[a]]></Content><MsgId>6095931007075453132</MsgId></xml>";
-//		parse(content);
-	}
-	
 }
