@@ -58,7 +58,7 @@ public class UserBaseInfo {
 		
 		JSONObject jsonObject = new JSONObject(jsonString.toString());
 
-        Map result = new HashMap(); 
+        Map result = new HashMap();
         Iterator iterator = jsonObject.keys();
         String key = null;
         String value = null;
