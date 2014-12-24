@@ -18,6 +18,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 /**
+ * @deprecated
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
  * snsapi_base of wechat api
  */
