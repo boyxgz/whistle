@@ -23,10 +23,14 @@ public class JsApiContext {
 
 	private String url;
 	private String ticket;
-	private String nonce_str;
+	private String nonceStr;
 	private String timestamp;
 	private String signature;
 	private String appId;
+
+	public String getNonceStr() {
+		return nonceStr;
+	}
 
 	public String getUrl() {
 		return url;
@@ -34,10 +38,6 @@ public class JsApiContext {
 
 	public String getTicket() {
 		return ticket;
-	}
-
-	public String getNonce_str() {
-		return nonce_str;
 	}
 
 	public String getTimestamp() {
@@ -55,11 +55,11 @@ public class JsApiContext {
 	private JsApiContext(String url) {
 		this.url = url;
 		ticket = JsApiHelper.getJsapiTicket();
-		nonce_str = UUID.randomUUID().toString();
+		nonceStr = UUID.randomUUID().toString();
 		timestamp = Long.toString(System.currentTimeMillis() / 1000);
 		appId = Configure.config().getAppid();
 
-		String string1 = "jsapi_ticket=" + ticket + "&noncestr=" + nonce_str
+		String string1 = "jsapi_ticket=" + ticket + "&noncestr=" + nonceStr
 				+ "&timestamp=" + timestamp + "&url=" + url;
 
 		try {

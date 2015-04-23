@@ -34,8 +34,15 @@ public class Pusher {
     }
    
     public String push(String content) throws NetworkException {
+    	return push(content, CredentialHelper.getAccessToken());
+    }
+   
+    public String push(String content, String accessToken) throws NetworkException {
     	try{
-	        String fullApi = apiUrl + "access_token=" + CredentialHelper.getAccessToken();
+	        String fullApi = apiUrl;
+	        if(accessToken != null) {
+	        	fullApi += "access_token=" + accessToken;
+	        }
 	        System.out.println( fullApi);
 	        URL url = new URL(fullApi);
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();

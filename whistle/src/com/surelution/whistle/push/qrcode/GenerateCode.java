@@ -8,12 +8,16 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -24,10 +28,9 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  */
 public class GenerateCode {
 
-	public static void generate(String content, String path, String f) throws Exception {
+	public static void generate(String content, String format, OutputStream os, String overlay) throws IOException, WriterException {
 		int QRCODE_IMAGE_HEIGHT = 1280;
 		int QRCODE_IMAGE_WIDTH = 1280;
-		String IMAGE_PATH = "/Users/johnny/hunan-qr";
 
 		HashMap<EncodeHintType, ErrorCorrectionLevel> hints = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
 		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
@@ -53,14 +56,6 @@ public class GenerateCode {
                 }
             }
         }
-        
-
-//		BufferedImage image = MatrixToImageWriter.toBufferedImage(matrix);
-		BufferedImage overlay = ImageIO.read(new File("/Users/johnny/hunan-qr/logo.png"));
-
-		// Calculate the delta height and width
-		int deltaHeight = image.getHeight() - overlay.getHeight();
-		int deltaWidth = image.getWidth() - overlay.getWidth();
 
 		// Draw the new image
 		BufferedImage combined = new BufferedImage(QRCODE_IMAGE_HEIGHT,
@@ -68,19 +63,34 @@ public class GenerateCode {
 		Graphics2D g = (Graphics2D) combined.getGraphics();
 		g.drawImage(image, 0, 0, null);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-		g.drawImage(overlay, (int) Math.round(deltaWidth / 2),
-				(int) Math.round(deltaHeight / 2), null);
+
+        if(overlay != null) {
+    		BufferedImage overlayImg = ImageIO.read(new File(overlay));
+
+    		// Calculate the delta height and width
+    		int deltaHeight = image.getHeight() - overlayImg.getHeight();
+    		int deltaWidth = image.getWidth() - overlayImg.getWidth();
+    		g.drawImage(overlayImg, (int) Math.round(deltaWidth / 2),
+    				(int) Math.round(deltaHeight / 2), null);
+        }
+		ImageIO.write(combined, format, os);
+	}
+
+	public static void generate(String content, String path, String f) throws Exception {
+		String IMAGE_PATH = "/Users/johnny/hunan-qr";
 
 		File folder = new File(IMAGE_PATH + path);
 		if(!folder.exists()) {
 			folder.mkdirs();
 		}
 		File imageFile = new File(IMAGE_PATH + path, f + ".png");
-		ImageIO.write(combined, "PNG", imageFile);
-
+		FileOutputStream fos = new FileOutputStream(imageFile);
+		generate(content, "PNG", fos, "/Users/johnny/hunan-qr/logo.png");
 	}
 	
 	public static void main(String[] args) throws Exception {
+//		FileOutputStream fos = new FileOutputStream("/Users/johnny/1.png");
+//		generate("http://www.sohu.com/", "PNG", fos, null);
 		generate("dafds", "", "100");
 	}
 }

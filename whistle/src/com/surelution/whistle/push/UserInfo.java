@@ -3,10 +3,18 @@
  */
 package com.surelution.whistle.push;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.surelution.whistle.core.Configure;
 
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
@@ -196,7 +204,7 @@ public class UserInfo {
 		}
 		return ret;
 	}
-	
+
 	public static void updateUserGroup(String openId, String groupId) {
 		String url = "https://api.weixin.qq.com/cgi-bin/groups/members/update?";
 		Pusher p = new Pusher();
@@ -216,8 +224,7 @@ public class UserInfo {
 	
 	}
 	
-	public static UserInfo loadUserInfo(String openId) {
-		String json = loadUserInfoAsJson(openId);
+	private static UserInfo drawFromJson(String json) {
 		JSONObject jsonObject = null;
 		try {
 			jsonObject = new JSONObject(json);
@@ -271,6 +278,67 @@ public class UserInfo {
 		return user;
 	}
 	
+	public static UserInfo loadUserInfo(String openId) {
+		String json = loadUserInfoAsJson(openId);
+		UserInfo user = drawFromJson(json);
+		return user;
+	}
+
+	public static UserInfo loadUserInfoViaSnsCode(String code) throws Exception {
+		String openid = null, accessToken = null;
+		Configure c = Configure.config();
+		StringBuilder sb = new StringBuilder("https://api.weixin.qq.com/sns/oauth2/access_token?appid=");
+		sb.append(c.getAppid());
+		sb.append("&secret=");
+		sb.append(c.getSecret());
+		sb.append("&code=");
+		sb.append(code);
+		sb.append("&grant_type=authorization_code");
+
+		URL url = new URL(sb.toString());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-Type","text/plain; charset=utf-8");
+        conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+ 
+        conn.setDoOutput(true);
+ 
+        int responseCode = conn.getResponseCode(); //TODO how to handle the code?
+ 
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(conn.getInputStream(), "utf-8"));
+        StringBuilder response = new StringBuilder();
+        
+        List<String> lines = IOUtils.readLines(in);
+        for(String line : lines) {
+        	response.append(line);
+        }
+        in.close();
+ 
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = new JSONObject(response.toString());
+			openid = jsonObject.getString("openid");
+			accessToken  = jsonObject.getString("access_token");
+		} catch (JSONException e1) {
+			e1.printStackTrace(); //TODO throw some exception?
+		}
+		
+		String ret = null;
+		String url2 = "https://api.weixin.qq.com/sns/userinfo?lang=zh_CN&openid=" + openid + "&";
+		Pusher p = new Pusher();
+		p.setRequestMethod("GET");
+		p.setApiUrl(url2);
+		try {
+			ret = p.push(null, accessToken);
+		} catch (NetworkException e) {
+			e.printStackTrace();
+		}
+		
+		return drawFromJson(ret);
+	}
+
 	public enum Gender {
 		
 		MALE(1), FEMALE(2), UNKNOWN(0);

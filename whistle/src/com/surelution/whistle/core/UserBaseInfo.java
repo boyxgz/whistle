@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 /**
  * @deprecated
+ * refer to <code>com.surelution.whistle.push.UserInfo</code>
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
  * snsapi_base of wechat api
  */

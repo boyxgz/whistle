@@ -3,23 +3,23 @@
  */
 package com.surelution.whistle.core;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
-import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.surelution.whistle.push.Pusher;
 
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
  *
  */
 public class Auth2Util {
+	
+	public static final String KEY_CODE = "code";
+	
+	public static final String KEY_STATE = "state";
 
 	public static String buildRedirectUrl(String dest, String state, AuthScope scope) {
 		String s1 = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=";
@@ -56,31 +56,35 @@ public class Auth2Util {
 		sb.append("&code=");
 		sb.append(code);
 		sb.append("&grant_type=authorization_code");
+		
+		Pusher p = new Pusher();
+		p.setApiUrl(sb.toString());
+		String json = p.push(null, null);
 
-		URL url = new URL(sb.toString());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-Type","text/plain; charset=utf-8");
-        conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
- 
-        conn.setDoOutput(true);
- 
-        int responseCode = conn.getResponseCode(); //TODO how to handle the code?
- 
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(conn.getInputStream(), "utf-8"));
-        StringBuilder response = new StringBuilder();
-        
-        List<String> lines = IOUtils.readLines(in);
-        for(String line : lines) {
-        	response.append(line);
-        }
-        in.close();
+//		URL url = new URL(sb.toString());
+//        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//        
+//        conn.setRequestMethod("GET");
+//        conn.setRequestProperty("Content-Type","text/plain; charset=utf-8");
+//        conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+// 
+//        conn.setDoOutput(true);
+// 
+//        int responseCode = conn.getResponseCode(); //TODO how to handle the code?
+// 
+//        BufferedReader in = new BufferedReader(
+//                new InputStreamReader(conn.getInputStream(), "utf-8"));
+//        StringBuilder response = new StringBuilder();
+//        
+//        List<String> lines = IOUtils.readLines(in);
+//        for(String line : lines) {
+//        	response.append(line);
+//        }
+//        in.close();
  
 		JSONObject jsonObject = null;
 		try {
-			jsonObject = new JSONObject(response.toString());
+			jsonObject = new JSONObject(json);
 			openid = jsonObject.getString("openid");
 		} catch (JSONException e1) {
 			e1.printStackTrace(); //TODO throw some exception?
