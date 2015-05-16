@@ -3,13 +3,29 @@
  */
 package com.surelution.whistle.core.pay;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.security.KeyStore;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
+import javax.net.ssl.SSLContext;
+
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 /**
  * @author <a href;"mailto:guangzong.syu@gmail.com">guangzong</a>
@@ -34,7 +50,7 @@ public class TransferInfo implements Serializable {
 		sb.append(amount);
 		sb.append("&check_name=");
 		sb.append(checkName);
-		if(!StringUtils.isNotBlank(desc)) {
+		if(StringUtils.isNotBlank(desc)) {
 			sb.append("&desc=");
 			sb.append(desc);
 		}
@@ -72,10 +88,12 @@ public class TransferInfo implements Serializable {
 		}
 		sb.append("&key=");
 		sb.append(mchInfo.getApiKey());
+		String content = sb.toString();
+		System.out.println(content);
 		
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
-			byte[] bs = md.digest(sb.toString().getBytes());
+			byte[] bs = md.digest(content.getBytes());
 			StringBuilder md5 = new StringBuilder();
 			for(byte b : bs) {
 				md5.append(Integer.toString( (b & 0xff) + 0x100, 16).substring(1));
@@ -87,8 +105,8 @@ public class TransferInfo implements Serializable {
 		return null;
 	}
 
-	public TransferInfo(MchInfo mi) {
-		mchInfo = mi;
+	public TransferInfo() {
+		mchInfo = MchInfo.config();
 	}
 	
 	public MchInfo getMchInfo() {
@@ -100,15 +118,9 @@ public class TransferInfo implements Serializable {
 	public String getNonceStr() {
 		return nonceStr;
 	}
-//	public void setNonceStr(String nonceStr) {
-//		this.nonceStr = nonceStr;
-//	}
 	public String getSign() {
 		return s();
 	}
-//	public void setSign(String sign) {
-//		this.sign = sign;
-//	}
 	public String getPartnerTradeNo() {
 		return partnerTradeNo;
 	}
@@ -150,7 +162,7 @@ public class TransferInfo implements Serializable {
 		NO_CHECK,FORCE_CHECK,OPTION_CHECK
 	}
 
-	public String getTransDoc() {
+	private String getTransDoc() {
 		StringBuilder sb = new StringBuilder("<xml>");
 		sb.append("<mch_appid>");
 		sb.append(mchInfo.getMchAppid());
@@ -160,13 +172,17 @@ public class TransferInfo implements Serializable {
 		sb.append(mchInfo.getMchId());
 		sb.append("</mchid>");
 
-		sb.append("<sub_mch_id>");
-		sb.append(mchInfo.getSubMchId());
-		sb.append("</sub_mch_id>");
+		if(StringUtils.isNotBlank(mchInfo.getSubMchId())) {
+			sb.append("<sub_mch_id>");
+			sb.append(mchInfo.getSubMchId());
+			sb.append("</sub_mch_id>");
+		}
 
-		sb.append("<device_info>");
-		sb.append(mchInfo.getDeviceInfo());
-		sb.append("</device_info>");
+		if(StringUtils.isNotBlank(mchInfo.getDeviceInfo())) {
+			sb.append("<device_info>");
+			sb.append(mchInfo.getDeviceInfo());
+			sb.append("</device_info>");
+		}
 
 		sb.append("<nonce_str>");
 		sb.append(nonceStr);
@@ -209,12 +225,75 @@ public class TransferInfo implements Serializable {
 		return sb.toString();
 	}
 	
-	public static void main(String[] args) {
-		TransferInfo ti = new TransferInfo(MchInfo.config());
+	public void transfer() {
+		String content = this.getTransDoc();
+		
+		try{
+			KeyStore keyStore  = KeyStore.getInstance("PKCS12");
+	        FileInputStream instream = new FileInputStream(new File("/Users/johnny/surelution_cert/apiclient_cert.p12"));
+	        try {
+	            keyStore.load(instream, mchInfo.getMchId().toCharArray());
+	        } finally {
+	            instream.close();
+	        }
+	
+	        // Trust own CA and all self-signed certs
+	        SSLContext sslcontext = SSLContexts.custom()
+	                .loadKeyMaterial(keyStore, mchInfo.getMchId().toCharArray())
+	                .build();
+	        // Allow TLSv1 protocol only
+	        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+	                sslcontext,
+	                new String[] { "TLSv1" },
+	                null,
+	                SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+	        CloseableHttpClient httpclient = HttpClients.custom()
+	                .setSSLSocketFactory(sslsf)
+	                .build();
+	        try {
+	
+	            HttpPost post = new HttpPost("https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers");
+	            StringEntity se = new StringEntity(content, "utf-8");
+	            post.setEntity(se);
+	
+	            System.out.println("executing request" + post.getRequestLine());
+	
+	            CloseableHttpResponse response = httpclient.execute(post);
+	            try {
+	                HttpEntity entity = response.getEntity();
+	
+	                System.out.println("----------------------------------------");
+	                System.out.println(response.getStatusLine());
+	                if (entity != null) {
+	                    System.out.println("Response content length: " + entity.getContentLength());
+	                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent()));
+	                    String text;
+	                    while ((text = bufferedReader.readLine()) != null) {
+	                        System.out.println(text);
+	                    }
+	                   
+	                }
+	                EntityUtils.consume(entity);
+	            } finally {
+	                response.close();
+	            }
+	        } finally {
+	            httpclient.close();
+	        }
+		}catch(Exception e) {
+			//TODO
+			System.out.println("暂时还不知道搞么B");
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
+		TransferInfo ti = new TransferInfo();
 		ti.setPartnerTradeNo(UUID.randomUUID().toString());
 		ti.setAmount(5);
-		ti.setDesc("fuck");
-		ti.setOpenId("dasfdsfds");
-		System.out.println(ti.getTransDoc());
+		ti.setDesc("你好");
+		ti.setOpenId("on0OzjiM1hmIQVxu00uta1Xiy2Zo");
+		ti.transfer();
+		
 	}
 }
