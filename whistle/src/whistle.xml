@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>  
 <wx>
 	<token>whistle</token>
-	<appid>wxc1f365333e44a020</appid>
-	<secret>e4172468cc1dc36d8e56cc81e5c70aef</secret>
+	<appid>wx93c425d455269272</appid>
+	<secret>9f28e15383bb43f7a4c7dab38d11d002</secret>
 	<checkRequestRestrictly>true</checkRequestRestrictly>
 	<processor-chain>
 		<processor>com.surelution.whistle.core.SampleAction</processor>

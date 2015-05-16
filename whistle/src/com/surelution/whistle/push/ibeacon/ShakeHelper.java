@@ -36,7 +36,7 @@ public class ShakeHelper {
         ii.setUuid(jo.getString("uuid"));
         return si;
 	}
-	
+
 	public static void main(String[] args) throws Exception {
 		System.out.println(loadByTicket("0d164211a6035318a0a8ef5592226bd2"));
 	}
