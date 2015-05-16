@@ -44,7 +44,7 @@ public class TransferInfo implements Serializable {
 	private Integer amount;
 	private String desc;
 	
-	private String s() {
+	private String generateSign() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("amount=");
 		sb.append(amount);
@@ -119,7 +119,7 @@ public class TransferInfo implements Serializable {
 		return nonceStr;
 	}
 	public String getSign() {
-		return s();
+		return generateSign();
 	}
 	public String getPartnerTradeNo() {
 		return partnerTradeNo;
@@ -230,7 +230,7 @@ public class TransferInfo implements Serializable {
 		
 		try{
 			KeyStore keyStore  = KeyStore.getInstance("PKCS12");
-	        FileInputStream instream = new FileInputStream(new File("/Users/johnny/surelution_cert/apiclient_cert.p12"));
+	        FileInputStream instream = new FileInputStream(new File(mchInfo.getCertPath()));
 	        try {
 	            keyStore.load(instream, mchInfo.getMchId().toCharArray());
 	        } finally {
@@ -271,7 +271,6 @@ public class TransferInfo implements Serializable {
 	                    while ((text = bufferedReader.readLine()) != null) {
 	                        System.out.println(text);
 	                    }
-	                   
 	                }
 	                EntityUtils.consume(entity);
 	            } finally {
