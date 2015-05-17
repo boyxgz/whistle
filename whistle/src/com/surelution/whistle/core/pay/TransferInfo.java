@@ -14,7 +14,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 import javax.net.ssl.SSLContext;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
@@ -26,6 +30,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * @author <a href;"mailto:guangzong.syu@gmail.com">guangzong</a>
@@ -225,9 +231,8 @@ public class TransferInfo implements Serializable {
 		return sb.toString();
 	}
 	
-	public void transfer() {
+	public String transfer() throws TransferException {
 		String content = this.getTransDoc();
-		
 		try{
 			KeyStore keyStore  = KeyStore.getInstance("PKCS12");
 	        FileInputStream instream = new FileInputStream(new File(mchInfo.getCertPath()));
@@ -268,9 +273,27 @@ public class TransferInfo implements Serializable {
 	                    System.out.println("Response content length: " + entity.getContentLength());
 	                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent()));
 	                    String text;
+	                    StringBuilder sb = new StringBuilder();
 	                    while ((text = bufferedReader.readLine()) != null) {
-	                        System.out.println(text);
+	                        sb.append(text);
 	                    }
+	                    
+	                    DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+	                    DocumentBuilder builder = null;
+	                    try {
+	                        builder = builderFactory.newDocumentBuilder();
+	                        Document doc = builder.parse(IOUtils.toInputStream(sb.toString()));
+	                        
+	                        Element root = doc.getDocumentElement();
+	                        String returnCode = root.getElementsByTagName("return_code").item(0).getTextContent();
+	                        if(!"SUCCESS".equals(returnCode)) {
+	                        	throw new TransferException();
+	                        }
+	                        return root.getElementsByTagName("payment_no").item(0).getTextContent();
+	                    } catch (ParserConfigurationException e) {
+	                        e.printStackTrace();  
+	                    }
+	                    
 	                }
 	                EntityUtils.consume(entity);
 	            } finally {
@@ -284,6 +307,7 @@ public class TransferInfo implements Serializable {
 			System.out.println("暂时还不知道搞么B");
 			e.printStackTrace();
 		}
+		throw new TransferException();
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -292,7 +316,7 @@ public class TransferInfo implements Serializable {
 		ti.setAmount(5);
 		ti.setDesc("你好");
 		ti.setOpenId("on0OzjiM1hmIQVxu00uta1Xiy2Zo");
-		ti.transfer();
+		System.out.println(ti.transfer());
 		
 	}
 }
