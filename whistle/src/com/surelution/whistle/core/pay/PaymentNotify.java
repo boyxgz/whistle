@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
  * <transaction_id><![CDATA[1008090473201506070217506507]]></transaction_id>
  * </xml>
  * 
- * TODO 需要把细节完成
+ * TODO 需要把细节完成 
  */
 public class PaymentNotify {
 
