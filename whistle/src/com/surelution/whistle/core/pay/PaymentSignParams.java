@@ -46,9 +46,12 @@ public class PaymentSignParams {
 			}
 		}
 
-		sb.append("&key=");
-		sb.append(apiKey);
+		if(StringUtils.isNotBlank(apiKey)) {
+			sb.append("&key=");
+			sb.append(apiKey);
+		}
 		String content = sb.toString();
+		System.out.println(content);
 		
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");

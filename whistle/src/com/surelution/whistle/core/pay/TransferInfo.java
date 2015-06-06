@@ -9,8 +9,6 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.security.KeyStore;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 import javax.net.ssl.SSLContext;
@@ -20,7 +18,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -45,73 +42,6 @@ public class TransferInfo implements Serializable {
 
 	private MchInfo mchInfo;
 	private String nonceStr = String.valueOf(RandomUtils.nextLong(1, 1000000000000000000l));
-//	private String partnerTradeNo;
-//	private String openId;
-	private CheckName checkName = CheckName.NO_CHECK;
-//	private String reUserName;
-//	private Integer amount;
-//	private String desc;
-	
-//	private String generateSign() {
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("amount=");
-//		sb.append(amount);
-//		sb.append("&check_name=");
-//		sb.append(checkName);
-//		if(StringUtils.isNotBlank(desc)) {
-//			sb.append("&desc=");
-//			sb.append(desc);
-//		}
-//		if(StringUtils.isNotBlank(mchInfo.getDeviceInfo())) {
-//			sb.append("&device_info=");
-//			sb.append(mchInfo.getDeviceInfo());
-//		}
-//		if(StringUtils.isNotBlank(mchInfo.getMchAppid())) {
-//			sb.append("&mch_appid=");
-//			sb.append(mchInfo.getMchAppid());
-//		}
-//		if(StringUtils.isNotBlank(mchInfo.getMchId())) {
-//			sb.append("&mchid=");
-//			sb.append(mchInfo.getMchId());
-//		}
-//		sb.append("&nonce_str=");
-//		sb.append(nonceStr);
-//		sb.append("&openid=");
-//		sb.append(openId);
-//		if(StringUtils.isNotBlank(partnerTradeNo)){
-//			sb.append("&partner_trade_no=");
-//			sb.append(partnerTradeNo);
-//		}
-//		if(StringUtils.isNotBlank(reUserName)) {
-//			sb.append("&re_user_name=");
-//			sb.append(reUserName);
-//		}
-//		if(StringUtils.isNotBlank(mchInfo.getSpbillCreateIp())) {
-//			sb.append("&spbill_create_ip=");
-//			sb.append(mchInfo.getSpbillCreateIp());
-//		}
-//		if(StringUtils.isNotBlank(mchInfo.getSubMchId())) {
-//			sb.append("&sub_mch_id=");
-//			sb.append(mchInfo.getSubMchId());
-//		}
-//		sb.append("&key=");
-//		sb.append(mchInfo.getApiKey());
-//		String content = sb.toString();
-//		System.out.println(content);
-//		
-//		try {
-//			MessageDigest md = MessageDigest.getInstance("MD5");
-//			byte[] bs = md.digest(content.getBytes());
-//			StringBuilder md5 = new StringBuilder();
-//			for(byte b : bs) {
-//				md5.append(Integer.toString( (b & 0xff) + 0x100, 16).substring(1));
-//			}
-//			return md5.toString();
-//		} catch (NoSuchAlgorithmException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
 
 	public TransferInfo() {
 		mchInfo = MchInfo.config();
