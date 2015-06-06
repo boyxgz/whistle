@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
 
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
- *
+ * TODO 或许该用 PaymentSignParams 这个类
  */
 public class RedPackageInfo implements Serializable {
 
@@ -460,13 +460,11 @@ public class RedPackageInfo implements Serializable {
 	public static void main(String[] args) throws Exception {
 		RedPackageInfo ri = new RedPackageInfo();
 		ri.setOpenId("on0OzjiM1hmIQVxu00uta1Xiy2Zo");
-		ri.setActId("1");
 		ri.setActName("test");
-		ri.setAmount(101);
+		ri.setAmount(100);
 		ri.setDailySn(1000000002l);
 		ri.setWishing("测试一下啦");
 		ri.setRemark("hello again");
 		ri.transfer();
-		
 	}
 }
