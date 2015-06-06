@@ -28,6 +28,8 @@ public class UserPayQr {
 		params.add("time_stamp", timeStamp);
 		params.add("nonce_str", nonceStr);
 		params.add("product_id", this.productId);
+		
+		params.setApiKey(mchInfo.getApiKey());
 		sign = params.getSign();
 	}
 
@@ -46,5 +48,10 @@ public class UserPayQr {
 		sb.append("&sign=");
 		sb.append(sign);
 		return sb.toString();
+	}
+	
+	public static void main(String[] args) {
+		UserPayQr upq = new UserPayQr("12345");
+		System.out.println(upq.getQrContent());
 	}
 }
