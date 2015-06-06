@@ -11,12 +11,16 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
  * 
  */
 public class Exchange {
+	
+	public static ThreadLocal<HashMap<String, String>> ps = new ThreadLocal<HashMap<String,String>>();
 
 	// private String accessToken;
 	private String apiUrl;
@@ -46,7 +50,14 @@ public class Exchange {
 		try {
 //			String fullApi = apiUrl + "access_token="
 //					+ CredentialHelper.getAccessToken();
-			URL url = new URL(apiUrl);
+			StringBuilder sb = new StringBuilder(apiUrl);
+			for(Entry<String, String> es : ps.get().entrySet()) {
+				sb.append("&");
+				sb.append(es.getKey());
+				sb.append("=");
+				sb.append(es.getValue());
+			}
+			URL url = new URL(sb.toString());
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
 			conn.setRequestMethod(requestMethod);
@@ -81,6 +92,7 @@ public class Exchange {
 			throw new NetworkException();
 		} catch (IOException e) {
 			System.out.println("network error");
+			e.printStackTrace();
 			throw new NetworkException();
 		}
 	}

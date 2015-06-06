@@ -49,7 +49,7 @@ public class QrCode {
     public static void main(String[] args) throws Exception {
 //    	String s = getTempTicket(123456778, 1200);
 //    	System.out.println(s);
-    	for(int i = 20; i < 21; i++) {
+    	for(int i = 21; i < 22; i++) {
     		try{
 	    		String ticket = getTicket(i);
 	    		System.out.println(ticket);
