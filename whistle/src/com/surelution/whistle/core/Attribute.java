@@ -23,6 +23,7 @@ public class Attribute {
 
 	public static final String Msg_Type_NEWS = "news";
 	public static final String Msg_Type_TEXT = "text";
+	public static final String Msg_Type_EVENT = "event";
 
 	private String name;
 	private String value;
