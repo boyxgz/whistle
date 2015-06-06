@@ -3,16 +3,11 @@
  */
 package com.surelution.whistle.core.pay;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.security.KeyStore;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.net.ssl.SSLContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,8 +17,6 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -165,14 +158,7 @@ public class Payment implements Serializable {
 	                System.out.println(response.getStatusLine());
 	                if (entity != null) {
 	                    System.out.println("Response content length: " + entity.getContentLength());
-//	                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent()));
-//	                    String text;
-//	                    StringBuilder sb = new StringBuilder();
-//	                    while ((text = bufferedReader.readLine()) != null) {
-//	                        sb.append(text);
-//	                    }
 	                    String responseContent = IOUtils.toString(new InputStreamReader(entity.getContent()));
-	                    System.out.println(responseContent);
 	                    
 	                    DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 	                    DocumentBuilder builder = null;
