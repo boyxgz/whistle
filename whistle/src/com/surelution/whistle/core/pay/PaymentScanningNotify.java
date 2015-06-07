@@ -14,6 +14,8 @@ import org.w3c.dom.Element;
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
  *         用户扫描生成的支付二维码后，应用服务器端收到腾讯方面来的请求
+ *         
+ *  TODO 或许该用PlainXmlDocHelper来实现
  */
 public class PaymentScanningNotify {
 

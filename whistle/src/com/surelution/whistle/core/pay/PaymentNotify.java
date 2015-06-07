@@ -3,13 +3,13 @@
  */
 package com.surelution.whistle.core.pay;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
@@ -33,70 +33,87 @@ import org.w3c.dom.Element;
  * <transaction_id><![CDATA[1008090473201506070217506507]]></transaction_id>
  * </xml>
  * 
- * TODO 需要把细节完成 
  */
 public class PaymentNotify {
 
-	private String appId;
-	private String openId;
-	private String mchId;
-	private String isSubscribe;
-	private String nonceStr;
-	private String productId;
-	private String sign;
+	private Map<String, String> map;
+	private String get(String key) {
+		return map.get(key);
+	}
 
 	public String getAppId() {
-		return appId;
+		return get("appid");
 	}
 
-	public String getOpenId() {
-		return openId;
+	public String getBankType() {
+		return get("bank_type");
 	}
 
-	public String getMchId() {
-		return mchId;
+	public String getCashFee() {
+		return get("cash_fee");
+	}
+
+	public String getFeeType() {
+		return get("fee_type");
 	}
 
 	public String getIsSubscribe() {
-		return isSubscribe;
+		return get("is_subscribe");
+	}
+
+	public String getMchId() {
+		return get("mch_id");
 	}
 
 	public String getNonceStr() {
-		return nonceStr;
+		return get("nonce_str");
 	}
 
-	public String getProductId() {
-		return productId;
+	public String getOpenId() {
+		return get("openid");
+	}
+
+	public String getOutTradeNo() {
+		return get("out_trade_no");
+	}
+
+	public String getResultCode() {
+		return get("result_code");
+	}
+
+	public String getReturnCode() {
+		return get("return_code");
 	}
 
 	public String getSign() {
-		return sign;
+		return get("sign");
+	}
+
+	public String getTimeEnd() {
+		return get("time_end");
+	}
+
+	public String getTotalFee() {
+		return get("total_fee");
+	}
+
+	public String getTradeType() {
+		return get("trade_type");
+	}
+
+	public String getTransactionId() {
+		return get("transaction_id");
 	}
 
 	public void notify(InputStream is) {
-
-		DocumentBuilderFactory builderFactory = DocumentBuilderFactory
-				.newInstance();
-		DocumentBuilder builder = null;
 		try {
-			builder = builderFactory.newDocumentBuilder();
-			Document doc = builder.parse(is);
-
-			Element root = doc.getDocumentElement();
-			appId = root.getElementsByTagName("appid").item(0).getTextContent();
-			openId = root.getElementsByTagName("openid").item(0)
-					.getTextContent();
-			mchId = root.getElementsByTagName("mch_id").item(0)
-					.getTextContent();
-			isSubscribe = root.getElementsByTagName("is_subscribe").item(0)
-					.getTextContent();
-			nonceStr = root.getElementsByTagName("nonce_str").item(0)
-					.getTextContent();
-			productId = root.getElementsByTagName("product_id").item(0)
-					.getTextContent();
-			sign = root.getElementsByTagName("sign").item(0).getTextContent();
-		} catch (Exception e) {
-
+			map = PlainXmlDocHelper.parse(is);
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
