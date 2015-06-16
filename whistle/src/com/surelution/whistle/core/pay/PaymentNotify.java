@@ -11,6 +11,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import com.surelution.whistle.core.PlainXmlDocHelper;
+
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
  *

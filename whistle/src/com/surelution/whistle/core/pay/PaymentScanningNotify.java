@@ -3,13 +3,19 @@
  */
 package com.surelution.whistle.core.pay;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+import com.surelution.whistle.core.PlainXmlDocHelper;
 
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
@@ -56,29 +62,45 @@ public class PaymentScanningNotify {
 	}
 
 	public void notify(InputStream is) {
-
-		DocumentBuilderFactory builderFactory = DocumentBuilderFactory
-				.newInstance();
-		DocumentBuilder builder = null;
 		try {
-			builder = builderFactory.newDocumentBuilder();
-			Document doc = builder.parse(is);
-
-			Element root = doc.getDocumentElement();
-			appId = root.getElementsByTagName("appid").item(0).getTextContent();
-			openId = root.getElementsByTagName("openid").item(0)
-					.getTextContent();
-			mchId = root.getElementsByTagName("mch_id").item(0)
-					.getTextContent();
-			isSubscribe = root.getElementsByTagName("is_subscribe").item(0)
-					.getTextContent();
-			nonceStr = root.getElementsByTagName("nonce_str").item(0)
-					.getTextContent();
-			productId = root.getElementsByTagName("product_id").item(0)
-					.getTextContent();
-			sign = root.getElementsByTagName("sign").item(0).getTextContent();
-		} catch (Exception e) {
-
+			Map<String, String> map = PlainXmlDocHelper.parse(is);
+			appId = map.get("appid");
+			openId = map.get("openid");
+			mchId = map.get("mch_id");
+			isSubscribe = map.get("is_subscribe");
+			nonceStr = map.get("nonce_str");
+			productId = map.get("product_id");
+			sign = map.get("sign");
+		} catch (ParserConfigurationException e1) {
+			e1.printStackTrace();
+		} catch (SAXException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
+
+//		DocumentBuilderFactory builderFactory = DocumentBuilderFactory
+//				.newInstance();
+//		DocumentBuilder builder = null;
+//		try {
+//			builder = builderFactory.newDocumentBuilder();
+//			Document doc = builder.parse(is);
+//
+//			Element root = doc.getDocumentElement();
+//			appId = root.getElementsByTagName("appid").item(0).getTextContent();
+//			openId = root.getElementsByTagName("openid").item(0)
+//					.getTextContent();
+//			mchId = root.getElementsByTagName("mch_id").item(0)
+//					.getTextContent();
+//			isSubscribe = root.getElementsByTagName("is_subscribe").item(0)
+//					.getTextContent();
+//			nonceStr = root.getElementsByTagName("nonce_str").item(0)
+//					.getTextContent();
+//			productId = root.getElementsByTagName("product_id").item(0)
+//					.getTextContent();
+//			sign = root.getElementsByTagName("sign").item(0).getTextContent();
+//		} catch (Exception e) {
+//
+//		}
 	}
 }
