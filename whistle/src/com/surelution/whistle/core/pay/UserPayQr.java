@@ -6,6 +6,7 @@ package com.surelution.whistle.core.pay;
 import org.apache.commons.lang3.RandomUtils;
 
 /**
+ * 生成一张二维码，供用户扫码支付
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
  *
  */

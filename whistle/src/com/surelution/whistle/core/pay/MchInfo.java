@@ -28,6 +28,7 @@ public class MchInfo implements Serializable {
 	private String apiKey;
 	private String certPath;
 	private String nickName;
+	private String notifyUrl;
 
 	public String getNickName() {
 		return nickName;
@@ -95,6 +96,14 @@ public class MchInfo implements Serializable {
 		this.spbillCreateIp = spbillCreateIp;
 	}
 
+	public String getNotifyUrl() {
+		return notifyUrl;
+	}
+
+	public void setNotifyUrl(String notifyUrl) {
+		this.notifyUrl = notifyUrl;
+	}
+
 	public synchronized static MchInfo config() {
 		//
 		if(instance == null) {
@@ -114,6 +123,7 @@ public class MchInfo implements Serializable {
 				instance.apiKey = p.getProperty("api_key");
 				instance.certPath = p.getProperty("cert_path");
 				instance.nickName = p.getProperty("nick_name");
+				instance.notifyUrl = p.getProperty("notify_url");
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.out.println("mch config file not found(mch_pay.properties)");

@@ -109,16 +109,16 @@ public class Payment implements Serializable {
 		params.add("openid", openId);
 	}
 
-	public Payment(String body, String outTradeNo, Integer totalFee, String notifyUrl) {
+	public Payment(String body, String outTradeNo, Integer totalFee) {
 		mchInfo = MchInfo.config();
 
 		//construction method
 		setBody(body);
 		setOutTradeNo(outTradeNo);
 		setTotalFee(totalFee);
-		setNotifyUrl(notifyUrl);
 
 		//application const values
+		setNotifyUrl(mchInfo.getNotifyUrl());
 		params.add("appid", mchInfo.getMchAppid());
 		params.add("mch_id", mchInfo.getMchId());
 		params.add("device_info", mchInfo.getDeviceInfo());
@@ -220,7 +220,8 @@ public class Payment implements Serializable {
 	}
 	
 	public static void main(String[] args) {
-		Payment p = new Payment("也就一个测试", "1234", 15, "http://surelution.sh-hansi.com/payScanCallback");
+		Payment p = new Payment("也就一个测试", "1234", 15);
+		p.setNotifyUrl("http://surelution.sh-hansi.com/payScanCallback");
 		p.setOpenId("on0OzjiM1hmIQVxu00uta1Xiy2Zo");
 		UnifiedOrderResponse resp = p.unifyOrder();
 		System.out.println(resp.getReturnCode());
