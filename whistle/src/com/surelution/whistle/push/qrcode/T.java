@@ -12,8 +12,8 @@ import java.io.File;
 public class T {
 
 	public static void main(String[] args) {
-		String path = "/Users/johnny/hunan-qr/";
-		for(int i = 540; i < 200; i++) {
+		String path = "/Users/johnny/youmi-qr/";
+		for(int i = 10001; i < 10008; i++) {
 			String name = path + i + ".png";
 			File f = new File(name);
 			if(!f.exists()) {

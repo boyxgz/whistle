@@ -20,8 +20,6 @@ import com.google.zxing.MultiFormatReader;
 import com.google.zxing.Reader;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.GlobalHistogramBinarizer;
-import com.google.zxing.multi.GenericMultipleBarcodeReader;
-import com.google.zxing.multi.MultipleBarcodeReader;
 
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guangzong</a>
