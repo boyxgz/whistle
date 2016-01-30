@@ -50,6 +50,7 @@ public class RequestProcessingChain {
 			System.out.print("try ");
 			System.out.println(processor.getClass().getName());
 			processor.feed(map);
+			processor.prepare();
 			boolean accept = false;
 			try{
 				accept = processor.accept();

@@ -20,6 +20,7 @@ import java.util.Set;
 public abstract class BaseAction {
 
 	private Map<String, String> params;
+	private Boolean sendBackMessage = true;
 	private Map<String, Attribute> outcomeParams = new HashMap<String, Attribute>();
 	
 	final protected void feed(Map<String, String> map) {
@@ -57,17 +58,23 @@ public abstract class BaseAction {
 	 */
 	public abstract void execute();
 	
+	public void prepare() {
+		
+	}
+	
 	public void preExecute() {
 		
 	}
 
 	public String buildXml() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<xml>");
-		for(Entry<String, Attribute> entry : outcomeParams.entrySet()) {
-			sb.append(entry.getValue().toXml());
+		if(sendBackMessage) {
+			sb.append("<xml>");
+			for(Entry<String, Attribute> entry : outcomeParams.entrySet()) {
+				sb.append(entry.getValue().toXml());
+			}
+			sb.append("</xml>");
 		}
-		sb.append("</xml>");
 		return sb.toString();
 	}
 
@@ -103,5 +110,9 @@ public abstract class BaseAction {
         return "event".equals(getParam(Attribute.KEY_MsgType))
         		&& "CLICK".equals(getParam("Event"))
         		&& key.equals(getParam("EventKey"));
+    }
+    
+    final protected void keepSilence() {
+    	sendBackMessage = false;
     }
 }
