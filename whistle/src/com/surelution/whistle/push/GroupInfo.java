@@ -156,7 +156,7 @@ public class GroupInfo {
 		return "GroupInfo [id=" + id + ", name=" + name + ", count=" + count
 				+ "]";
 	}
-	
+
 	public static void main(String[] args) {
 		moveUserToGroup("oklOVjgRVFE8UiqhmYCEBnkv-Nww", "100");
 		System.out.println(findGroupByOpenId("oklOVjgRVFE8UiqhmYCEBnkv-Nww"));
