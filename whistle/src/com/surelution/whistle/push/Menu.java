@@ -20,8 +20,8 @@ public class Menu {
         }
         br.close();
         Pusher p = new Pusher();
-        p.setApiUrl("https://api.weixin.qq.com/cgi-bin/menu/create?"); 
-        System.out.println(p.push(cmd));
+        p.setApiUrl("https://api.weixin.qq.com/cgi-bin/menu/get?"); 
+        System.out.println(p.push(null));
     }
     
     public static void create(String filePath) throws Exception {
