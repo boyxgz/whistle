@@ -4,8 +4,8 @@ whistle是为微信公众平台设计的开发框架。之所以取名whistle，
 
 下载sample项目，打开微信后台<br/>
 1、打开项目中的whistle.xml，把微信后台的的AppID(应用ID)、AppSecret(应用密钥)、Token(令牌)拷贝到whistle.xml的对应位置；<br/>
-2、在web容器中运行项目；
-3、假设您的项目url根是 http://yourhost.com/yourproject， 则URL(服务器地址)填写:http://yourhost.com/yourproject/wxmpGate
-4、保存即可
+2、在web容器中运行项目；<br/>
+3、假设您的项目url根是 http://yourhost.com/yourproject， 则URL(服务器地址)填写:http://yourhost.com/yourproject/wxmpGate<br/>
+4、保存即可<br/>
 
 由于微信后台的要求，您必须一个打开了80端口的服务器才行，如果无法提供，可以到一些云平台申请也可以。
