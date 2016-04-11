@@ -235,7 +235,7 @@ public class UserInfo {
 		if (null != jsonObject) {
 			user = new UserInfo();
 			user.jsonObject = jsonObject;
-			try {
+//			try {
 //				
 //				// 用户的标识
 //				user.openId =jsonObject.getString("openid");
@@ -259,21 +259,21 @@ public class UserInfo {
 //				user.headImgUrl = jsonObject.getString("headimgurl");
 //				
 //				user.unionid = jsonObject.getString("unionid");
-			} catch (Exception e) {
-				if (0 == user.getSubscribe()) {
-					//log.error("用户{}已取消关注", weixinUserInfo.getOpenId());
-				} else {
-					try {
-						int errorCode = jsonObject.getInt("errcode");
-						String errorMsg = jsonObject.getString("errmsg");
-						if(errorCode != 0) {
-							// TODO throw some exception?
-						}
-					} catch (JSONException e1) {
-						e1.printStackTrace();
-					}
-				}
-			}
+//			} catch (Exception e) {
+//				if (0 == user.getSubscribe()) {
+//					//log.error("用户{}已取消关注", weixinUserInfo.getOpenId());
+//				} else {
+//					try {
+//						int errorCode = jsonObject.getInt("errcode");
+//						String errorMsg = jsonObject.getString("errmsg");
+//						if(errorCode != 0) {
+//							// TODO throw some exception?
+//						}
+//					} catch (JSONException e1) {
+//						e1.printStackTrace();
+//					}
+//				}
+//			}
 		}
 		return user;
 	}
