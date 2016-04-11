@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<wx>
+	<token>***copy token from weixin mp console***</token>
+	<appid>***appid****</appid>
+	<secret>***secret***</secret>
+	<checkRequestRestrictly>true</checkRequestRestrictly>
+	<processor-chain>
+		<processor>sample.SampleWechatAction</processor>
+	</processor-chain>
+</wx>
