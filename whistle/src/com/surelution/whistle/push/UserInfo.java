@@ -40,7 +40,7 @@ public class UserInfo {
 	// 用户所在省份
 	private String province;
 	// 用户所在城市
-	private String city;
+	private String city; 
 	// 用户的语言，简体中文为zh_CN
 	private String language;
 	// 用户头像
