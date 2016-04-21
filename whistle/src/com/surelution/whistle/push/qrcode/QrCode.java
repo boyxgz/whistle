@@ -65,7 +65,10 @@ public class QrCode {
 	
 	public static String getQrContent(int id) {
 		InputStream is = getQr(id);
+		return decodeQr(is);
+	}
 
+	public static String decodeQr(InputStream is) {
 		BufferedImage image;
 		try {
 			image = ImageIO.read(is);
@@ -76,16 +79,12 @@ public class QrCode {
 			String s = reader.decode(bitmap, HINTS_PURE).getText();
 			return s;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ChecksumException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (FormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
