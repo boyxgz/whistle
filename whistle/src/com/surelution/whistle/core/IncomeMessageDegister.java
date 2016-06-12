@@ -71,6 +71,10 @@ public class IncomeMessageDegister {
 	}
 
 	public static Map<String, String> parse(Map<String, String[]> paramsMap, InputStream is) throws WxMsgCryptException {
+		return parse(paramsMap, is, false);
+	}
+
+	public static Map<String, String> parse(Map<String, String[]> paramsMap, InputStream is, boolean insertFromUser) throws WxMsgCryptException {
 		String encryptType = paramsMap.get("encrypt_type") != null?paramsMap.get("encrypt_type")[0]:null;
 		if("aes".equals(encryptType)) {
 			Configure config = Configure.config();
@@ -84,6 +88,10 @@ public class IncomeMessageDegister {
 				while(line != null) {
 					sb.append(line);
 					line = br.readLine();
+				}
+				if(insertFromUser) {
+					//due to the rubbish library from weixin, the content must have <ToUserName> 
+					sb.insert(sb.indexOf("<AppId>"), "<ToUserName></ToUserName>");
 				}
 				plainText = pc.decryptMsg(paramsMap.get("msg_signature")[0], paramsMap.get("timestamp")[0], paramsMap.get("nonce")[0], sb.toString());
 				System.out.println(plainText);
